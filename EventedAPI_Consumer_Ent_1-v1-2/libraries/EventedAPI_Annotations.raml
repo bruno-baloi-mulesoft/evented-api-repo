@@ -1,0 +1,28 @@
+#%RAML 1.0 Library
+
+uses:
+  events:  event_library/EventLibrary.raml
+  iot_events: event_library/IoTEvents.raml
+  
+annotationTypes: 
+  transport:  
+    enum:  [jms,mqtt,amqp,kafka,solace,http]
+  pattern: 
+    enum:  [pub-sub,p2p,req-reply]
+  endpoint: string
+  connectionProperties:
+    type:  object
+    properties:
+      host:  string
+      port:  string
+      path:  string
+      userid:  string
+      password:  string
+  permittedEvents: 
+    type:  array
+    items: events.ValidEvent
+  persistenceProperties:
+    type:  object
+    properties:
+      endpointURL:  string
+ 

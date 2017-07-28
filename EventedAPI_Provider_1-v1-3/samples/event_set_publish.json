@@ -1,0 +1,22 @@
+[
+  
+    
+  {
+  "TemperatureSensorEvent": 
+    {
+      "Base Event":{
+        "eventId": "1234",
+        "eventType": "IoT"
+      },
+        "temperature": 23.45,
+        "unit": "metric"
+    }
+      
+  }
+  
+ 
+]
+  
+    
+
+

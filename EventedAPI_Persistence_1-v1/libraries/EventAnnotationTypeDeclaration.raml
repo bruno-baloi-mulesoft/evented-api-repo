@@ -1,0 +1,18 @@
+#%RAML 1.0 Library
+
+annotationTypes: 
+  transport:  
+    enum:  [jms,mqtt,amqp,kafka,solace,http]
+  pattern: 
+    enum:  [pub-sub,p2p,req-reply]
+  endpoint: string
+  connectionProperties:
+    type:  object
+    properties:
+      host:  string
+      port:  string
+      path:  string
+      userid:  string
+      password:  string
+  persistenceProperties:
+    

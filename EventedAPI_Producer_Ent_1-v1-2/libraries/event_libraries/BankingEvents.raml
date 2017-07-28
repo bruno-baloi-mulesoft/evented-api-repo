@@ -1,0 +1,36 @@
+#%RAML 1.0 Library
+
+usage: Used to define Banking Event Types
+
+uses:  
+  #base_event:  EventLibrary.raml
+   base_event:  ../EventedAPI_DataTypes.raml
+
+types:
+   
+  BankingEvent: base_event.BaseEvent
+  
+  CustomerDataEvent:  
+    type:  BankingEvent
+    discriminatorValue: "Customre360Event"
+  
+  PaymentEvent:  
+    type:  BankingEvent
+    discriminatorValue: "PaymentEvent"
+  
+  TransferEvent:  
+    type:  BankingEvent
+    discriminatorValue: "TransferEvent"
+  
+  RemittanceEvent:  
+    type:  BankingEvent
+    discriminatorValue: "TransferEvent"
+    
+  
+  SettlementEvent:  
+    type:  BankingEvent
+    discriminatorValue: "SettlementEvent"
+    
+  
+  
+  

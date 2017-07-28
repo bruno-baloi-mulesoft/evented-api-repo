@@ -1,0 +1,54 @@
+#%RAML 1.0 Library
+usage: Used to define IoT Event Types
+
+uses:  
+  #base_event:  EventLibrary.raml
+  base_event:  ../EventedAPI_DataTypes.raml
+  
+  
+  
+types:
+  
+  IoTEvent:  base_event.BaseEvent
+  
+  TemperatureSensorEvent:  
+    type:  IoTEvent
+    discriminatorValue: "TemperatureEvent"
+    properties:
+       temperature:  number
+       unit:  
+         enum:  ['metric','imperial']
+      
+  
+  HumiditySensortEvent:  
+    type:  IoTEvent
+    discriminatorValue: "HumidityEvent"
+  
+  PressureSensorEvent:  
+    type:  IoTEvent
+    discriminatorValue: "PressureEvent"
+  
+  LightSensorEvent:  
+    type: IoTEvent
+    discriminatorValue: "LightEvent"
+  
+  AirQualitySensorEvent:  
+    type:  IoTEvent
+    discriminatorValue: "AirQualityEvent"
+  
+  GyroSensorEvent:  
+    type:  IoTEvent
+    discriminatorValue: "PositionEvent"
+    
+  VelocitySensorEvent:  
+    type:  IoTEvent
+    discriminatorValue: "VelocityEvent"
+  
+  
+  
+  
+ 
+  
+    
+    
+    

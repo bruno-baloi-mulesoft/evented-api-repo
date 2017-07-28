@@ -1,0 +1,17 @@
+{
+  "channelCore":{
+    "channelId": "123",
+    "channelType":  "web",
+    "description":  "Test Channel !"
+  },
+  "subjectList":[
+    {
+      "subjectId": "777",
+      "subjectType": "queue"
+    }
+  ]
+}
+
+
+
+ 

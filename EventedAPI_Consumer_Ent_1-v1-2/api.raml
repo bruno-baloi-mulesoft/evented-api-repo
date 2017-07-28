@@ -1,0 +1,44 @@
+#%RAML 1.0
+title: EventedAPI_Consumer_Enterprise
+version: 1.0
+
+uses:
+  data_types:  libraries/EventedAPI_DataTypes.raml
+  annotation_types: libraries/EventedAPI_Annotations.raml
+  events:  libraries/event_library/EventLibrary.raml
+  
+/EventConsumer:
+  description: Event Consumer
+  (annotation_types.transport):  jms
+  (annotation_types.pattern):  pub-sub
+  (annotation_types.endpoint):  test.topic
+  (annotation_types.permittedEvents): []
+  (annotation_types.persistenceProperties):
+    endpointURL:  ""
+  (annotation_types.connectionProperties):
+    host: localhost
+    port: '8081'
+    path:  /
+    userid:   jsmith
+    password:  password
+
+    
+  get:
+    description: Consume the next Event on the subject
+    queryParameters: 
+      numEvents:
+        type:  number
+        default:  1
+  
+    body: 
+      application/json:
+        type: events.ValidEvent
+        example:  !include samples/event_post.json
+        
+  post:
+    description: Subscriber to Events on this Subject by providing a URL to receive Events on.
+   
+    body: 
+      application/json:
+        type: data_types.EventSubscription
+    

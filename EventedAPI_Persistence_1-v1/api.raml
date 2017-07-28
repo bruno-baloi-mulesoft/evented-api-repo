@@ -1,0 +1,181 @@
+#%RAML 1.0
+title: EventedAPI_Persistence
+baseUri: https://mocksvc.mulesoft.com/mocks/e4437230-70a4-4f8a-b052-3f55274c3524
+version: 1.0
+
+uses:
+  data_types:  libraries/EventedAPI_DataTypes.raml
+  annotation_types: libraries/EventAnnotationTypeDeclaration.raml
+  events: libraries/event_library/EventLibrary.raml
+  
+/Channel:
+  description: CRUD for channels; the equivalent of EventedAPI_Provider /Channel/{ChannelId}; 
+  post:
+     body: 
+      application/json:
+        type: data_types.ChannelDetail
+        example:  !include  samples/channelId_create_post.json
+    
+  get:
+    queryParameters: 
+      channelId: 
+        type: string
+    responses: 
+        200:
+          body: 
+            application/json:
+              type:  data_types.ChannelDetailSet
+              example: !include  samples/channel_get_response.json
+  put:
+    body: 
+      application/json:
+        type: data_types.ChannelDetail
+        example:  !include  samples/channelId_create_post.json
+    
+  delete:
+    queryParameters: 
+      channelId: 
+        type: string
+        
+  /Subject:
+    description: CRUD for Subjects; the equivalent of EventedAPI_Provider /Channel/{ChannelId}/Subject/{SubjectId}; 
+    get:
+      queryParameters: 
+        subjectId: 
+          type: string
+      responses: 
+        200:
+          body: 
+            application/json:
+              type:  data_types.SubjectSet
+              example:  !include  samples/subject_get_response.json
+    post:
+      body: 
+        application/json:
+          type: data_types.SubjectDetail
+          example:  !include  samples/subject_create_post.json
+    delete:
+      queryParameters: 
+        subjectId: 
+          type: string
+      
+    put:
+      body: 
+        application/json:
+          type: data_types.SubjectDetail
+          example:  !include  samples/subject_create_post.json
+      
+    /Event:
+      description: CRUD for Events; the equivalent of EventedAPI_Provider /Channel/{ChannelId}/Subject/{SubjectId}/Event/{EventId}; 
+      get:
+        queryParameters: 
+          eventId: 
+            type: string
+        responses: 
+          200:
+            body: 
+              application/json:
+                #type:  data_types.EventType
+                type:  events.EventList
+                example:  !include samples/event_get_response.json
+      post:
+        body: 
+          application/json:
+            type:  events.ValidEvent
+            example:  !include samples/event_create_post.json
+      put:
+        body: 
+          application/json:
+            type:  events.ValidEvent
+            example:  !include samples/event_create_post.json
+        
+      delete:
+        queryParameters: 
+          eventId: 
+            type: string
+      
+    
+    /EventProducer:
+      post:
+         body: 
+            application/json:
+              type: data_types.EventProducer
+              example:  !include samples/eventproducer_create_post.json
+                  
+      get:
+        queryParameters: 
+          eventProducerId:  string
+        responses: 
+          200:
+            body: 
+              application/json:
+                type: data_types.EventProducerSet
+                example:  !include  samples/eventproducer_get_response.json
+      put:
+        body: 
+            application/json:
+              type: data_types.EventProducer
+              example:  !include samples/eventproducer_create_post.json
+      
+      delete:
+        queryParameters: 
+          eventProducerId:  string
+        
+      
+    /EventConsumer:
+      post:
+        body: 
+          application/json:
+            type: data_types.EventConsumer
+            example:  !include samples/eventconsumer_create_post.json
+      get:
+        queryParameters: 
+          eventConsumerId:  string
+        responses: 
+          200:
+            body: 
+              application/json:
+                type: data_types.EventConsumerSet
+                example:  !include samples/eventconsumer_get_response.json
+      put:
+        body: 
+          application/json:
+            type: data_types.EventConsumer
+            example:  !include samples/eventconsumer_create_post.json
+        
+      delete:
+        queryParameters: 
+          eventConsumerId:  string
+      
+    
+/GraphQL_Endpoint:
+  post:
+    body: 
+      application/json:
+        example:  !include samples/graph_ql_req.json
+    responses: 
+      200:
+        body: 
+          application/json:
+            example:  !include samples/graph_ql_resp.json
+    
+/SPARQL_Endpoint:
+  post:
+    body: 
+      application/rdf:
+        example:  !include samples/sparql_req.txt
+      
+    
+    responses: 
+      200:
+        body: 
+          application/rdf:
+            example:  !include samples/sparql_resp.txt
+          
+    
+      
+    
+  
+  
+  
+  

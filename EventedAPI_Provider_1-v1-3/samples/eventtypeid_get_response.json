@@ -1,0 +1,10 @@
+{
+  
+  "eventTypeId": "1234",
+  "eventTypeName": "IoTEvent",
+  "eventTypeCategory": "device",
+  "eventKind":"HumidityEvent"
+
+ 
+
+ }

@@ -1,0 +1,10 @@
+
+{
+  EventChannel(channelId:123) {
+    channelId
+    channelType
+    Subject
+    EventProducer
+    EventConsumer
+  }
+}

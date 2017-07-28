@@ -1,0 +1,15 @@
+#%RAML 1.0 Overlay
+usage: Overlay for the Producer API connection parameters (annotations)
+extends: ../api.raml
+
+uses:
+  data_types:  EventedAPI_DataTypes.raml
+  annotation_types: EventedAPI_Annotations.raml
+ 
+
+/EventProducer:
+  (annotation_types.domain):  "Banking-Domain"
+  (annotation_types.channel_id):  "aaaa"
+  (annotation_types.subject_id):  "bbb"
+  (annotation_types.producer_id):  "cccc"
+  (annotation_types.provider_channel_url):  "http://event_provider_iot.cloudhub.io/"

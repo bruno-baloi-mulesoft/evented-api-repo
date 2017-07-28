@@ -1,0 +1,40 @@
+#%RAML 1.0
+
+baseUri: https://mocksvc.mulesoft.com/mocks/eed0a1f2-95d6-4a95-a74b-6bdefde3bced
+title: EventedAPI_Producer_Web
+version: 1.0
+
+
+uses:
+  data_types:  libraries/EventedAPI_DataTypes.raml
+  annotation_types: libraries/EventedAPI_Annotations.raml
+  events:  libraries/event_library/EventLibrary.raml
+
+/EventProducer:
+  description: Event Producer 
+  (annotation_types.domain):  ""
+  (annotation_types.channel_id):  "12345"
+  (annotation_types.subject_id):  "789"
+  (annotation_types.producer_id):  "1222222"
+  (annotation_types.provider_channel_url):  "http://event_provider_banking.cloudhub.io/"
+        
+  post:
+    description: Post an Event
+    queryParameters:
+      channel_id: 
+        type:  string
+        example:  "1234"
+      subject_id:  
+        type:  string
+        example:  "5678"
+      channel_url:  
+        type: string
+        example: "http://event_provider_banking.cloudhub.io/"
+      
+    body: 
+      application/json:
+        type: events.ValidEvent
+        example:  !include samples/event_type_post.json
+          
+                    
+          

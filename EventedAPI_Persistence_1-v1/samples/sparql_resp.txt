@@ -1,0 +1,3 @@
+<http://www.w3.org/evented-api/channel/123#> <http://www.w3.org/evented-api/predicate/has#> PREFIX subject: <http://www.w3.org/evented-api/subject/abc-123#>
+<http://www.w3.org/evented-api/channel/123#> <http://www.w3.org/evented-api/predicate/has#> PREFIX subject: <http://www.w3.org/evented-api/subject/abc-333#>
+<http://www.w3.org/evented-api/channel/123#> <http://www.w3.org/evented-api/predicate/has#> PREFIX subject: <http://www.w3.org/evented-api/subject/xyz-999#>

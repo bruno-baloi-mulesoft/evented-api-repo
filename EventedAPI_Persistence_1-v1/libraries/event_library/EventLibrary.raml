@@ -1,0 +1,18 @@
+#%RAML 1.0 Library
+usage: Used to define the Base Event Types
+
+uses:
+  data_types:  ../EventedAPI_DataTypes.raml
+  IoT:  IoTEvents.raml
+  Banking:  BankingEvents.raml
+  
+
+types:
+  
+  ValidEvent:  IoT.IoTEvent | Banking.BankingEvent
+        
+  EventList:
+    type:  array
+    items:  ValidEvent
+    minItems: 1
+    

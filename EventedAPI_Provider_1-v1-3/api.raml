@@ -1,0 +1,258 @@
+#%RAML 1.0
+baseUri: https://mocksvc.mulesoft.com/mocks/50ca515f-1c81-4de3-8648-85fc70601446
+title: EventedAPI
+version: 1.0
+  
+uses:
+  data_types:  libraries/EventedAPI_DataTypes.raml
+  annotation_types: libraries/EventAnnotationTypeDeclaration.raml
+  event_type_base: libraries/event_libraries/EventLibrary.raml
+  
+
+/EventChannel:
+  description: Event Channel Factory
+  (annotation_types.domain):  "Mining_IoT_Domain"
+  
+  post:
+    description: Create Event Channel
+    body:  
+      application/json:
+        type:  data_types.Channel
+        example:  !include samples/channel_create_req.son
+        
+    responses: 
+      200:
+        body: 
+          application/json:
+            type:  data_types.ChannelCreateRetType
+            example:  !include  samples/chanel_create_response.json
+             
+      
+  get:
+    description: Get List of Event Channels (Channel ID)
+    queryParameters: 
+      channelId:
+        type:  string
+    responses: 
+      200:
+        body: 
+          application/json:
+            type:  data_types.ChannelSet
+            example:  !include samples/channel_get_response.json
+            
+
+  delete:
+    description: Delete a Channel (Channel ID)
+    queryParameters: 
+      channelId:  string
+            
+    
+  /{ChannelId}:
+    description:  A Channel has  a collection of Subjects
+    put:
+      description: Update Channel Data
+      body:  
+        application/json:
+          type:  data_types.Channel
+          example:  !include samples/channel_create_req.son
+      responses: 
+        200:
+          body: 
+            application/json:
+              example: !include samples/channel_update_response.json
+            
+    get:
+      description: Get Channel Details (Event Types, Subjects)
+      queryParameters: 
+        channelId:  string
+      responses: 
+        200:
+          body: 
+            application/json:
+              type: data_types.ChannelDetail
+              example:  !include  samples/channelId_get_response.json
+   
+    patch:
+      description: Update individual parts of the Channel
+        
+
+        
+    /Subject:
+      description: Subject Factory. A Subject  can be either peer-to-peer, or pub-sub. Associated to Subjects are  a collections of Events, Producers and Consumers
+      
+      post:
+        description: Create a Subject
+        body:  
+          application/json:
+            type:  data_types.Subject
+            example: !include samples/subject_post.json
+            
+      
+      get:
+        description: Get a list of suported Subjects
+        queryParameters: 
+          subjectId: string
+        responses: 
+          200:
+            body: 
+              application/json:
+                type:  data_types.SubjectSet
+                example: !include samples/subject_get_response.json
+                
+      
+      delete:
+        description: Delete a Subject
+        queryParameters: 
+          subjectId: string
+        
+      /{SubjectId}:
+        description: A subject is the place where the Events are published to and retrieved from. A subject can have mulitple Event Producers and Event Consumers associated with it.
+        
+        
+        get:
+          description: Get Subject details
+          responses: 
+            200:
+              body: 
+                application/json:
+                  type: data_types.SubjectDetail
+                  example:  !include samples/subjectId_get_response.json
+                 
+                  
+        put:
+          description: Update Subject Details
+          body: 
+            application/json:
+              type: data_types.SubjectDetail
+              example: !include samples/subjectId_get_response.json
+              
+        patch:
+          description: Update individual parts of the Subject i.e. Events, EventProducers, Event Consumers
+        
+        /EventType:
+          description: Event Type Factory
+          post:
+            description: Create EventList
+            body:  
+              application/json:
+                #type:  event_type_base.ValidEvents
+                type: event_type_base.EventList
+                example:  !include samples/eventtype_get_response.json
+              
+          get:
+            description: Get a List of Event Type suported by the Channel
+            queryParameters: 
+              eventId:  string
+            responses: 
+              200:
+                body: 
+                  application/json:
+                    #type: event_type_base.ValidEventList
+                    type:  event_type_base.EventList
+                    example:  !include samples/eventtype_get_response.json
+          
+          put:
+            description: Update EventList
+            body:  
+              application/json:
+                #type:  event_type_base.ValidEvents
+                type: event_type_base.EventList
+                example:  !include samples/eventtype_get_response.json
+          delete:
+            description: Delete an Event Type
+            queryParameters: 
+              eventTypeId:  string
+        
+          /{EventTypeId}:
+            get:
+              description: Get Eventy Type details
+              responses: 
+                200:
+                  body: 
+                    application/json:
+                      #type:  data_types.EventType
+                      type:  event_type_base.ValidEvent
+                      example:  !include samples/eventtypeid_get_response.json
+                      
+            put:
+              description: Update Event Type details
+              body: 
+                application/json:
+                  #type:  data_types.EventType
+                  type:  event_type_base.ValidEvent
+                  example:  !include samples/eventtypeid_get_response.json 
+        
+        /EventProducer:
+          description:  Event Producer Factory; manage lifecycle of EventProducers
+          
+          post:
+            description: Create an Event Producer.
+            body: 
+              application/json:
+                type: data_types.EventProducer
+                example:  !include samples/event_producerid_response.json
+                    
+          get:
+            description: Get a list of Event Producers associated with this Subject
+            queryParameters: 
+              eventProducerId:  string
+            responses: 
+              200:
+                body: 
+                  application/json:
+                    type: data_types.EventProducerSet
+                    example:  !include samples/event_producer_get_response.json
+            
+          
+          /{EventProducerId}:
+            description: An Event Producer publishes events to the Subject. An Event producer can only publish one of the Events allowed by the Subject at a time.
+        
+            post:
+              description: Publish an Event.
+              body: 
+                application/json:
+                  type:  event_type_base.ValidEvent
+                  example:  !include samples/event_post.json
+                  
+                  
+           
+              
+          /EventConsumer:
+            description: Event Consumer Factory. 
+            post:
+              description: Create an Event Consumer for this subject
+              body: 
+                application/json:
+                  type: data_types.EventConsumer
+                  example:  !include  samples/event_consumer_post.json
+            get:
+              description: Get a list of Event Consumers associated with this Subject
+              
+              body: 
+                application/json:
+                  type: data_types.EventConsumerSet
+                  example:  !include samples/event_consumer_get_response.json
+           
+          
+          /{EventConusmerId}:
+            description: The Event Consumer can do 1) Get the most recent Event from the Subject or 2) Subscribe to Events from the Suject by providing the Subject a URL to send the Event to.
+            
+            get:
+              description: Retrieve the latest Event from the Subject
+                  
+              responses: 
+                200:
+                  body: 
+                    application/json:
+                      type: event_type_base.ValidEvent
+                      example:  !include samples/event_post.json
+              
+            post:
+              description: Subscriber to Events on this Subject by providing a URL to receive Events on.
+              body: 
+                application/json:
+                  type: data_types.EventSubscription
+         
+          
+    
+    

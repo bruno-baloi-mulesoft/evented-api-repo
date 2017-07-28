@@ -1,0 +1,19 @@
+ {
+   
+   "subjectCore":{
+      "subjectId":"12345",
+      "subjectType":"queue",
+     "description":""
+     },
+    "eventList":[
+        
+           {
+              "eventTypeId": "web",
+              "eventTypeName": "44444",
+              "eventTypeCategory": "device",
+             "eventKind":"BaseEvent"
+             
+            }
+        
+    ]
+}

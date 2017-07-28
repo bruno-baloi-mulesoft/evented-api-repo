@@ -1,0 +1,14 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX channel: <http://www.w3.org/evented-api/channel#>
+PREFIX subject: <http://www.w3.org/evented-api/subjectl#>
+PREFIX subject_type: <http://www.w3.org/evented-api/subject#>
+PREFIX predicate: <http://www.w3.org/evented-api/predicate#>
+
+
+PREFIX event_type: <http://www.w3.org/evented-api/event_type#>
+
+SELECT ?channel ?predicate ?subject
+
+WHERE {
+ ?subject a subject_type:topic;
+}

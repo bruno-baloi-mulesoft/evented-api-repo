@@ -1,0 +1,26 @@
+{
+	"data":{
+		"EventChannel":{
+			"channelId":"123",
+			"channelType": "web",
+			"subjectSet":[
+				"Subject":{
+					"subjectId":"34567",
+					"subjectType":"topic"
+				}
+			],
+			"EventProducerSet":[
+				"EventProducer":{
+					"eventProducerId":"1234",
+					
+				}
+			],
+			"EventConsumerSet":[
+				"eventConsumerId":{
+					"eventConsumerId":"12345"
+				}
+			]
+			
+		}
+	}
+}

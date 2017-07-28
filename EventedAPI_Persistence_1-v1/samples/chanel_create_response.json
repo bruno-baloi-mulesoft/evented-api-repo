@@ -1,0 +1,8 @@
+{
+  @context:  "http://schema.org"
+  @id:  "123"
+  @type:  "Acme_IoT_Channel" 
+  "channelId": "123",
+  "statusMessage": "success/failure",
+  "created": true
+}
