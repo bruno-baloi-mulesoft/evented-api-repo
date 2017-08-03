@@ -1,6 +1,8 @@
 {
       "subjectId":"12345",
       "subjectType":"queue",
+      "durable":  false,
+       "routes": ["http://channel/123/subject/567","http://channel/123/subject/456"],
       "description":""
 }
 

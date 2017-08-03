@@ -38,6 +38,10 @@ types:
       subjectType: 
         enum: [queue,topic]
         default: queue
+      durable: boolean
+      routes?:
+        type: array
+        items:  string
       description?:
         type: string
      

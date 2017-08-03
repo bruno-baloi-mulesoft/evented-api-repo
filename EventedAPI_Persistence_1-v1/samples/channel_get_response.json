@@ -9,7 +9,8 @@
   "subjectList":[
     {
       "subjectId": "777",
-      "subjectType": "queue"
+      "subjectType": "queue",
+      "durable": false
     }
   ]}
   ]

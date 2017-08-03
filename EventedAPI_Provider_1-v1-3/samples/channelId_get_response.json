@@ -7,7 +7,9 @@
   "subjectList":[
     {
       "subjectId": "777",
-      "subjectType": "queue"
+      "durable": false,
+      "subjectType": "queue",
+       "routes": ["http://channel/123/subject/567","http://channel/123/subject/456"]
     }
   ]
 }

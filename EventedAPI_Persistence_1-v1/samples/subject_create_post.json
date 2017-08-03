@@ -3,6 +3,7 @@
    "subjectCore":{
       "subjectId":"12345",
       "subjectType":"queue",
+     "durable": false,
      "description":""
      },
     "eventList":[
