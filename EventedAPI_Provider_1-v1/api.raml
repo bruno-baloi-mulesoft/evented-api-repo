@@ -217,18 +217,17 @@ uses:
                   
            
               
-          /EventConsumer:
-            description: Event Consumer Factory. 
-            post:
-              description: Create an Event Consumer for this subject
-              body: 
-                application/json:
-                  type: data_types.EventConsumer
-                  example:  !include  samples/event_consumer_post.json
-            get:
-              description: Get a list of Event Consumers associated with this Subject
-              
-              body: 
+        /EventConsumer:
+          description: Event Consumer Factory. 
+          post:
+            description: Create an Event Consumer for this subject
+            body: 
+              application/json:
+                type: data_types.EventConsumer
+                example:  !include  samples/event_consumer_post.json
+          get:
+            description: Get a list of Event Consumers associated with this Subject
+            body: 
                 application/json:
                   type: data_types.EventConsumerSet
                   example:  !include samples/event_consumer_get_response.json
