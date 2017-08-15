@@ -1,0 +1,5 @@
+org/mule/modules/eventing/automation/runner/FunctionalTestSuite.class
+org/mule/modules/eventing/automation/functional/GreetTestCases.class
+org/mule/modules/eventing/automation/functional/QueryProcessorTestCases.class
+org/mule/modules/eventing/automation/functional/AddEntityTestCases.class
+org/mule/modules/eventing/automation/functional/GetRecentMessagesTestCases.class

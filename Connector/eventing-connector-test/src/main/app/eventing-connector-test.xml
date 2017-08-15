@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:eventing="http://www.mulesoft.org/schema/mule/eventing" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/eventing http://www.mulesoft.org/schema/mule/eventing/current/mule-eventing.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <eventing:config name="Eventing__Configuration" consumerSpecificationFile="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventing-connector-test/src/main/api/consumer/api.raml" producerSpecificationFile="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventing-connector-test/src/main/api/producer/api.raml" doc:name="Eventing: Configuration"/>
+      <flow name="eventing-connector-testFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
+        <eventing:send-event config-ref="Eventing__Configuration" message-ref="#[payload]" doc:name="Eventing"/>
+    </flow>
+    <flow name="eventing-connector-testFlow1">
+        <eventing:event-consumer config-ref="Eventing__Configuration" doc:name="Eventing (Streaming)"/>
+       
+        <logger level="INFO" doc:name="Logger" message="#[payload]"/>
+    </flow>
+</mule>

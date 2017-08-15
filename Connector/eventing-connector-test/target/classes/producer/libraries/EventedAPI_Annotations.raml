@@ -1,0 +1,30 @@
+#%RAML 1.0 Library
+
+uses:
+  events:  event_libraries/EventLibrary.raml
+  iot_events:  event_libraries/IoTEvents.raml
+
+annotationTypes: 
+  transport:  
+    enum:  [jms,mqtt,amqp,kafka,solace,zeromq]
+  TransportVendor:
+    enum:  [ActiveMQ,Hornet,TIBCO,Sonic,Fiorano,Mosquitto]
+  pattern: 
+    enum:  [pub-sub,p2p]
+  endpoint: string
+  connectionProperties:
+    type:  object
+    properties:
+      host:  string
+      port:  string
+      path:  string
+      userid:  string
+      password:  string
+  permittedEvents: 
+    type:  array
+    items: events.ValidEvent
+    
+  persistenceProperties:
+    type:  object
+    properties:
+      endpointURL:  string

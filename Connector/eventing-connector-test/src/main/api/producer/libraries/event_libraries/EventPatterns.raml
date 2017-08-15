@@ -1,0 +1,16 @@
+#%RAML 1.0 Library
+usage:
+
+uses:
+  data_types:  ../EventedAPI_DataTypes.raml
+  IoT:  IoTEvents.raml
+  Banking:  BankingEvents.raml
+  
+types:
+  
+  BankingPattern_A:  Banking.PaymentEvent | Banking.CustomerDataEvent | Banking.TransferEvent | Banking.SettlementEvent
+  
+  IoTPattern_A:  IoT.TemperatureSensorEvent | IoT.HumiditySensortEvent |IoT.AirQualitySensorEvent
+  
+
+  

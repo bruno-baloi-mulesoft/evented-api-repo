@@ -1,0 +1,25 @@
+#%RAML 1.0 Overlay
+extends:  ../api.raml
+
+uses:
+  data_types:  EventedAPI_DataTypes.raml
+  annotation_types: EventedAPI_Annotations.raml
+  iot_events:  event_libraries/IoTEvents.raml
+  
+  
+/EventProducer:
+  description: Event Producer 
+  (annotation_types.transport):  "jms"
+  (annotation_types.pattern):  "p2p"
+  (annotation_types.endpoint):  "test_123.topic"
+  (annotation_types.persistenceProperties):
+    endpointURL:  ""
+  (annotation_types.permittedEvents): [{"eventKind":"TemperatureEvent","temperature":12,"unit":metric,"eventTypeId":"123","eventTypeName":"TemperatureSensorEvent","eventTypeCategory":device},{"eventTypeId":"124","eventTypeName":"HumiditySensorEvent","eventTypeCategory":device,"eventKind":"HumidityEvent"},
+  {"eventTypeId":"125","eventTypeName":"AirQualitySensorEvent","eventTypeCategory":device,"eventKind":"AirQualityEvent"}] 
+  (annotation_types.connectionProperties):
+    host: localhost
+    port: '8081'
+    path:  /
+    userid:   root
+    password:  root
+    

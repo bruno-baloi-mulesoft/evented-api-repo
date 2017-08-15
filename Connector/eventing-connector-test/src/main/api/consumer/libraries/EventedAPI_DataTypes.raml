@@ -1,0 +1,134 @@
+#%RAML 1.0 Library
+
+usage: Use to define Evented API data types.
+
+uses:
+  #event_types: event_libraries/EventLibrary.raml
+
+types:
+  
+  Channel:
+    type:  object
+    properties:
+      channelId:
+        type:  string
+      channelType:
+        enum:  [web,enterprise]
+      description:
+        type: string
+        
+  ChannelDetail: 
+    type: object
+    properties:     
+      channelCore:  Channel 
+      subjectList:  Subject []
+      
+  
+  Subject:
+    type: object 
+    properties:
+      subjectId:
+        type:  string
+      subjectType: 
+        enum: [queue,topic]
+        default: queue
+      durable: boolean
+      routes?:
+        type: array
+        items:  string
+      description?:
+        type: string
+     
+        
+  SubjectDetail:
+    type:  object
+    properties:
+      subjectCore:  Subject
+      eventList:  BaseEvent []
+      
+  EventType:
+    type: object
+    discriminator: eventKind
+    properties:
+      eventTypeId: 
+        type:  string
+      eventTypeName:
+        type:  string
+      eventKind:  string
+      eventTypeCategory:
+        enum:  [alert,notification,business,device,status]
+      
+  BaseEvent:
+    type:  EventType
+    discriminatorValue: "BaseEvent"
+        
+  EventProducer:
+    type: object
+    properties:
+      eventProducerId:  string
+      permitedEvents?: EventSet
+      eventGenerationTimePeriod?:  string
+      description?:  string
+  
+  EventProducerSet:
+    type: array 
+    items: EventProducer
+    minItems: 1
+    uniqueItems: true
+  
+  EventConsumer:
+    type:  object
+    properties:
+      eventConsumerId:  string
+      permitedEvents?: EventSet
+      eventGenerationTimePeriod?:  string
+      description?:  string
+      
+  EventSubscription:
+    type: object
+    properties: 
+      subscriptionURL:  string
+  
+  EventSet:
+    type: array 
+    items: EventType
+    minItems: 1
+    uniqueItems: true
+  
+  ChannelSet:
+    type:  array
+    items:  Channel
+    minItems:  1
+    uniqueItems:  false
+      
+  SubjectSet:
+    type:  array
+    items:  SubjectDetail
+    minItems:  1
+    uniqueItems:  false
+      
+  
+  EventConsumerSet:
+    type: array 
+    items: EventConsumer
+    minItems: 1
+    uniqueItems: true
+    
+  
+        
+        
+    
+#--------Return Types-------
+  ChannelCreateRetType:
+    type:  object
+    properties:
+      channelId:
+        type:  string
+      statusMessage:
+        type:  string
+      created:
+        type: boolean
+    
+    
+  
+ 

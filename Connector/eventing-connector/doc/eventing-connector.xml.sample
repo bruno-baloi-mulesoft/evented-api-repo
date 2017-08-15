@@ -1,0 +1,9 @@
+<!-- BEGIN_INCLUDE(eventing:greet) -->
+    <eventing:greet config-ref="" friend="#[map-payload:friend]" />
+<!-- END_INCLUDE(eventing:greet) -->
+<!-- BEGIN_INCLUDE(eventing:query-processor) -->
+    <eventing:query-processor config-ref="" query="SELECT fieldName FROM MY_TABLE" />
+<!-- END_INCLUDE(eventing:query-processor) -->
+<!-- BEGIN_INCLUDE(eventing:add-entity) -->
+    <eventing:add-entity config-ref="" key="id1"/>
+<!-- END_INCLUDE(eventing:add-entity) -->

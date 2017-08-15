@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: EventedAPI_Producer_Ent
+version: 1.0
+
+uses:
+  data_types:  libraries/EventedAPI_DataTypes.raml
+  annotation_types: libraries/EventedAPI_Annotations.raml
+  events:  libraries/event_libraries/EventLibrary.raml
+  iot_events:  libraries/event_libraries/IoTEvents.raml
+  
+
+/EventProducer:
+  description: Event Producer
+  (annotation_types.transport):  jms
+  (annotation_types.TransportVendor):  ActiveMQ
+  (annotation_types.pattern):  pub-sub
+  (annotation_types.endpoint):  "test.topic"
+  (annotation_types.permittedEvents): [{"temperature":12,"unit":metric,"eventTypeId":"123","eventTypeName":"TemperatureSensorEvent","eventTypeCategory":device,"eventKind":"TemperatureEvent"},{"eventTypeId":"124","eventTypeName":"HumiditySensorEvent","eventTypeCategory":device,"eventKind":"HumidityEvent"},
+  {"eventTypeId":"125","eventTypeName":"AirQualitySensorEvent","eventTypeCategory":device,"eventKind":"AirQualityEvent"}]
+  (annotation_types.persistenceProperties):
+    endpointURL:  ""
+  
+  (annotation_types.connectionProperties):
+    host: localhost
+    port: '8081'
+    path:  /
+    userid:   jsmith
+    password:  password
+    
+  
+  post:
+    description: Publish an Event.
+        
+    body: 
+      application/json:
+        type: events.ValidEvent 
+        example:  !include samples/event_post.json
+          

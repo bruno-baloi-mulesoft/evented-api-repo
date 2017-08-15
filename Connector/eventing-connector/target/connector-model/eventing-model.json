@@ -1,0 +1,127 @@
+{
+  "minMuleVersion": "3.5.0",
+  "requiresEntitlement": false,
+  "requiresEnterpriseLicense": false,
+  "configs": [
+    {
+      "configElementName": "config",
+      "attributes": [
+        {
+          "javaTypeName": "String",
+          "fullQualifiedJavaTypeName": "java.lang.String",
+          "isOptional": false,
+          "isRefOnly": false,
+          "isPayload": false,
+          "isComplexType": false,
+          "isEnum": false,
+          "isString": true,
+          "typeMirror": "java.lang.String",
+          "isHttpCallback": false,
+          "isArrayOrListOrMap": false,
+          "javaName": "consumerSpecificationFile"
+        },
+        {
+          "javaTypeName": "String",
+          "fullQualifiedJavaTypeName": "java.lang.String",
+          "isOptional": false,
+          "isRefOnly": false,
+          "isPayload": false,
+          "isComplexType": false,
+          "isEnum": false,
+          "isString": true,
+          "typeMirror": "java.lang.String",
+          "isHttpCallback": false,
+          "isArrayOrListOrMap": false,
+          "javaName": "producerSpecificationFile"
+        }
+      ],
+      "javaName": "ConnectorConfig",
+      "friendlyName": "Configuration",
+      "type": "ConfigurationConfig"
+    }
+  ],
+  "attributes": [],
+  "processors": [
+    {
+      "isPaged": false,
+      "isBatch": false,
+      "samples": [],
+      "javaReturnType": {
+        "javaTypeName": "",
+        "fullQualifiedJavaTypeName": "void",
+        "isOptional": false,
+        "isRefOnly": false,
+        "isPayload": false,
+        "isComplexType": false,
+        "isEnum": false,
+        "isString": false,
+        "isHttpCallback": false,
+        "description": ""
+      },
+      "parameters": [
+        {
+          "javaTypeName": "Object",
+          "fullQualifiedJavaTypeName": "java.lang.Object",
+          "isOptional": false,
+          "isRefOnly": false,
+          "isPayload": false,
+          "isComplexType": false,
+          "isEnum": false,
+          "isString": false,
+          "typeMirror": "java.lang.Object",
+          "isHttpCallback": false,
+          "isArrayOrListOrMap": false,
+          "javaName": "message"
+        }
+      ],
+      "apiDocUrl": "",
+      "javaName": "sendEvent",
+      "friendlyName": "SendEvent",
+      "xsdName": "send-event"
+    }
+  ],
+  "filters": [],
+  "transformers": [],
+  "sources": [
+    {
+      "samples": [],
+      "javaReturnType": {
+        "javaTypeName": "",
+        "fullQualifiedJavaTypeName": "void",
+        "isOptional": false,
+        "isRefOnly": false,
+        "isPayload": false,
+        "isComplexType": false,
+        "isEnum": false,
+        "isString": false,
+        "isHttpCallback": false,
+        "description": ""
+      },
+      "parameters": [
+        {
+          "javaTypeName": "SourceCallback",
+          "fullQualifiedJavaTypeName": "org.mule.api.callback.SourceCallback",
+          "isOptional": false,
+          "isRefOnly": false,
+          "isPayload": false,
+          "isComplexType": false,
+          "isEnum": false,
+          "isString": false,
+          "typeMirror": "org.mule.api.callback.SourceCallback",
+          "isHttpCallback": false,
+          "isArrayOrListOrMap": false,
+          "javaName": "callback",
+          "description": "The sourcecallback used to dispatch message to the flow"
+        }
+      ],
+      "apiDocUrl": "",
+      "javaName": "eventConsumer",
+      "friendlyName": "EventConsumer",
+      "description": "Custom Message Source",
+      "xsdName": "event-consumer"
+    }
+  ],
+  "javaName": "EventingConnector",
+  "friendlyName": "Eventing",
+  "xsdName": "eventing"
+}
