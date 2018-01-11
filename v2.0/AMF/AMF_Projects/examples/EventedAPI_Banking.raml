@@ -1,0 +1,63 @@
+#%EventedAPIDialect 0.1
+
+uses:
+  transports: ../Libraries/EventTransportLibrary.raml
+  bankingEvents: ../Libraries/BankingEventLibrary.raml
+
+
+subjects:
+  subjectTransfer:
+     subjectID: subject123
+     eventPattern: pub-sub
+     eventTransports:
+      - transports.jmsTransport
+      - transports.mqttTransportAMQ
+      - transports.solaceTransport
+     supportedEvents:
+       - bankingEvents.paymentEvent
+       - bankingEvents.accountCreditEvent
+       - bankingEvents.accountDebitEvent
+       - bankingEvents.accountTransferEvent
+  subjectLoans:
+     subjectID: subject124
+     eventPattern: p2p
+     eventTransports:
+       - transports.mqttTransportAMQ
+       - transports.solaceTransport
+     supportedEvents:
+       - bankingEvents.loanOriginationEvent
+       - bankingEvents.loanProcessedEvent
+
+channels:
+  channel1:
+    channelID: ch123
+    subjects:
+       - subjectTransfer
+       - subjectLoans
+
+producers:
+  producer1:
+    applicationID:  app123
+    producerID: prod123
+    domainID: myBankingDomain
+    userID: me
+    producerChannel: channel1
+    producerSubject:
+      - subjectTransfer
+
+consumers:
+  consumer1:
+    applicationID: app123
+    consumerID: cons123
+    domainID: myBankingDomain
+    userID: me
+    consumerChannel: channel1
+    consumerSubject:
+      - subjectTransfer
+
+
+#the main encoded element
+
+apiPersona: All
+eventProducer: producer1
+eventConsumer: consumer1

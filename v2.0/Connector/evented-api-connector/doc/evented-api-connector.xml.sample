@@ -1,0 +1,6 @@
+<!-- BEGIN_INCLUDE(evented-api:greet) -->
+    <evented-api:greet config-ref="" friend="#[map-payload:friend]" />
+<!-- END_INCLUDE(evented-api:greet) -->
+<!-- BEGIN_INCLUDE(evented-api:add-entity) -->
+    <evented-api:add-entity config-ref="" key="id1"/>
+<!-- END_INCLUDE(evented-api:add-entity) -->

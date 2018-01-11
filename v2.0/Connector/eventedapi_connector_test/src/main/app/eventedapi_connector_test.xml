@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:evented-api="http://www.mulesoft.org/schema/mule/evented-api" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:eventing="http://www.mulesoft.org/schema/mule/eventing" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/eventing http://www.mulesoft.org/schema/mule/eventing/current/mule-eventing.xsd
+http://www.mulesoft.org/schema/mule/evented-api http://www.mulesoft.org/schema/mule/evented-api/current/mule-evented-api.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <evented-api:config name="EventedApi__Configuration" amfDocSpecificationFile="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/examples/EventedAPI_Banking.raml" amfDialectSpecificationDir="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/Dialects" doc:name="EventedApi: Configuration" amfLib="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/lib/amf.jar" amParseCmd="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/amf_parse.sh" eventedAPiConnectorProperties="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/eventedapi-connector.properties"/>
+    <flow name="eventedapi_connector_testFlow1">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
+        <set-payload value="blahblah" doc:name="Set Payload" mimeType="application/json"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" doc:name="EventedApi" message-ref="#[payload]" subject="subjectTransfer"/>
+    </flow>
+    <flow name="eventedapi_connector_testFlow">
+        <evented-api:event-consumer config-ref="EventedApi__Configuration" doc:name="EventedApi (Streaming)" subject="subjectTransfer"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="33e7c2ba-1e1a-42a1-8e0f-67cd8581fb4a">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	eventId: payload.eventId,
+	messagePayload: payload.messagePayload,
+	transportType: payload.transportType
+} ]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="got Event from Transport : #[payload.transportType], payload: #[payload.messagePayload]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

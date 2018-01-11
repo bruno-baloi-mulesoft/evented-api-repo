@@ -1,0 +1,4 @@
+org/mule/modules/eventedapi/automation/functional/GreetTestCases.class
+org/mule/modules/eventedapi/automation/functional/AddEntityTestCases.class
+org/mule/modules/eventedapi/automation/functional/GetRecentMessagesTestCases.class
+org/mule/modules/eventedapi/automation/runner/FunctionalTestSuite.class

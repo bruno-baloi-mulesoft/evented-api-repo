@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<namespace xmlns="http://www.mulesoft.org/schema/mule/tooling.attributes" xmlns:mule="http://www.mulesoft.org/schema/mule/core" url="http://www.mulesoft.org/schema/mule/evented-api" prefix="evented-api">
+  <global-cloud-connector versions="[3.5.0,8.0.0]" caption="EventedApi" description="" icon="" localId="parentConfig" image="" abstract="true" extends="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric"></global-cloud-connector>
+  <cloud-connector-message-source supportsInbound="true" supportsOutbound="false" versions="[3.5.0,8.0.0]" caption="EventedApi (Streaming)" description="" icon="icons/theme.classic/evented-api-endpoint-small.png" localId="endpoint" image="icons/theme.classic/evented-api-endpoint-large.png" abstract="false" extends="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric">
+    <attribute-category caption="General" description="General.">
+      <group id="evented-apiConnectorGeneric" caption="Basic Settings">
+        <modeSwitch alwaysCombo="true" name="Evented-api operations to execute" caption="Operation" description="Operation.">
+          <no-operation abstractElement="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric" versions="[3.5.0,8.0.0]" connector-name="source"></no-operation>
+          <mode modeId="http://www.mulesoft.org/schema/mule/evented-api/event-consumer" modeLabel="EventConsumer"></mode>
+        </modeSwitch>
+      </group>
+    </attribute-category>
+  </cloud-connector-message-source>
+  <cloud-connector-message-source supportsInbound="true" supportsOutbound="false" inboundLocalName="event-consumer" caption="Eventconsumer" description="Custom Message Source." icon="icons/theme.classic/evented-api-endpoint-small.png" localId="event-consumer" image="icons/theme.classic/evented-api-endpoint-large.png" abstract="true" extends="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric">
+    <attribute-category caption="General" description="General.">
+      <group id="general" caption="General">
+        <string name="subject" caption="Subject" description="" required="true" javaType="java.lang.String"></string>
+      </group>
+      <group id="polling" caption="Polling">
+        <string defaultValue="500" name="pollingPeriod" caption="Polling Period" description="Polling Period for Message Sources with Polling Strategy in ms." required="false" javaType="java.lang.String"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector-message-source>
+  <global-cloud-connector versions="[3.5.0,8.0.0]" caption="EventedApi: Configuration" description="Global Configuration configuration information." icon="icons/theme.classic/evented-api-connector-small.png" localId="config" image="icons/theme.classic/evented-api-connector-large.png" abstract="false" extends="http://www.mulesoft.org/schema/mule/evented-api/parentConfig" connectivityTesting="off" metaData="dynamic" metaDataKeyDisplay="DISPLAY_NAME" supportsUserDefinedMetaData="false">
+    <attribute-category caption="General" description="Evented-api configuration properties.">
+      <group id="evented-apiGenericProperties" caption="Basic Settings">
+        <name name="name" caption="Name" description="Give a name to this configuration so it can be later referenced by config-ref." required="true"></name>
+      </group>
+      <group id="general" caption="General">
+        <useMetaData name="useMetaData" caption="useMetaData"></useMetaData>
+      </group>
+      <group id="aMF Parse Command" caption="AMF Parse Command">
+        <file name="amParseCmd" caption="AMF Parse Command (full path)" description="" supportsExpressions="false" required="true" javaType="java.lang.String"></file>
+      </group>
+      <group id="aMF Library Location" caption="AMF Library Location">
+        <file name="amfLib" caption="AMF Model Location (full path)" description="" supportsExpressions="false" required="true" javaType="java.lang.String"></file>
+      </group>
+      <group id="aMF Document Specification" caption="AMF Document Specification">
+        <file name="amfDocSpecificationFile" caption="AMF Document Location (full path)" description="" supportsExpressions="false" required="true" javaType="java.lang.String"></file>
+      </group>
+      <group id="aMF Dialect Specification" caption="AMF Dialect Specification">
+        <file name="amfDialectSpecificationDir" caption="AMF Dialect Location (directory path)" description="" supportsExpressions="false" required="true" javaType="java.lang.String"></file>
+      </group>
+      <group id="eventedAPI Connector config" caption="EventedAPI Connector config">
+        <file name="eventedAPiConnectorProperties" caption="EventedAPI Connector properties (directory path)" description="" supportsExpressions="false" required="true" javaType="java.lang.String"></file>
+      </group>
+    </attribute-category>
+  </global-cloud-connector>
+  <cloud-connector caption="Abstractevented-apiconnectorgeneric" description="Interact with Evented-api." icon="icons/theme.classic/evented-api-connector-small.png" localId="abstractEvented-apiConnectorGeneric" image="icons/theme.classic/evented-api-connector-large.png" abstract="true">
+    <attribute-category caption="General" description="General.">
+      <group id="abstractEvented-apiConnectorGeneric" caption="Basic Settings">
+        <globalRef requiredType="http://www.mulesoft.org/schema/mule/evented-api/config" name="config-ref" caption="Connector Configuration" description="Specify which configuration to use for this invocation." required="true"></globalRef>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector versions="[3.5.0,8.0.0]" aliasId="org.mule.tooling.ui.modules.core.pattern.evented-api" caption="EventedApi" description="" icon="icons/theme.classic/evented-api-connector-small.png" localId="evented-api-connector" image="icons/theme.classic/evented-api-connector-large.png" extends="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric">
+    <attribute-category caption="General" description="General.">
+      <group id="evented-apiConnectorGeneric" caption="Basic Settings">
+        <modeSwitch alwaysCombo="true" name="Evented-api operations to execute" caption="Operation" description="Operation.">
+          <no-operation abstractElement="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric" versions="[3.5.0,8.0.0]" connector-name="processor"></no-operation>
+          <mode modeId="http://www.mulesoft.org/schema/mule/evented-api/send-event" modeLabel="SendEvent"></mode>
+        </modeSwitch>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" categories="DataSenseResolver" caption="Sendevent" icon="icons/theme.classic/evented-api-connector-small.png" localId="send-event" image="icons/theme.classic/evented-api-connector-large.png" abstract="true" extends="http://www.mulesoft.org/schema/mule/evented-api/abstractEvented-apiConnectorGeneric" metaData="static">
+    <attribute-category caption="General" description="General.">
+      <group id="general" caption="General">
+        <string name="subject" caption="Subject" description="" required="true" javaType="java.lang.String"></string>
+        <string name="message-ref" caption="Message Reference" description="" required="true" javaType="java.lang.Object"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+</namespace>

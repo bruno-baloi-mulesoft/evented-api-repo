@@ -1,0 +1,2 @@
+mvn deploy:deploy-file -Durl=file:///Users/brunobaloi/maven_repo -Dfile=amf.jar -DgroupId=amf -DartifactId=amf.lib -Dpackaging=jar -Dversion=1.0
+mvn deploy:deploy-file -Durl=file:///Users/brunobaloi/maven_repo -Dfile=jsonld-java-0.11.2-SNAPSHOT.jar -DgroupId=json-ld -DartifactId=json-ld.lib -Dpackaging=jar -Dversion=1.0

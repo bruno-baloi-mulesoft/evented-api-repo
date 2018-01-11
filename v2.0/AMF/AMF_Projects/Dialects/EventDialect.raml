@@ -1,0 +1,282 @@
+#%RAML 1.0 Dialect
+
+dialect: EventedAPIDialect
+version: 0.1
+
+usage: Dialect to describe the Evented API node grammar
+uses:
+  events: ../Vocabularies/Event.raml
+  transports: ../Vocabularies/EventTransport.raml
+  policies: ../Vocabularies/EventPolicy.raml
+  persistence:  ../Vocabularies/Persistence.raml
+  policyLib: ../Libraries/EventPolicyLibrary.raml
+
+external:
+  schema-org: "http://schema.org/"
+  shacl: "http://www.w3.org/ns/shacl#"
+
+raml:
+  document:
+    encodes: EventedApiNode
+    declares:
+      subjects: SubjectNode
+      channels: ChannelNode
+      consumers: EventConsumerNode
+      producers: EventProducerNode
+
+  module:
+    declares:
+      transports: TransportNode
+      events: EventNode
+      persistenceMechanism: PersistenceNode
+
+nodeMappings:
+
+  EventNode:
+    classTerm: events.BaseEvent
+    mapping:
+      eventID:
+        propertyTerm: events.eventID
+        range: string
+      eventDomain:
+        propertyTerm: events.eventDomain
+        range: string
+      eventCategory:
+        propertyTerm: events.eventCategory
+        range: string
+        enum:
+          -alert
+          -notification
+          -business
+          -device
+          -status
+      eventType:
+          propertyTerm: events.eventType
+          range: string
+      eventPayloadType:
+        propertyTerm: events.eventPayloadType
+        range: string
+        enum:
+          -xml
+          -json
+          -binary
+          -csv
+      #payload:  string
+
+  ConnectionNode:
+    classTerm: transports.EventTransportConnection
+    mapping:
+      connectionID:
+        propertyTerm: transports.connectionID
+        range:  string
+      host:
+        propertyTerm: transports.host
+        range:  string
+      port:
+        propertyTerm: transports.port
+        range: integer
+      userID:
+        propertyTerm: transports.username
+        range: string
+      userPassword:
+        propertyTerm: transports.password
+        range:  string
+
+  DomainNode:
+    classTerm:  events.EventDomain
+    mapping:
+      domainID:
+        propertyTerm: events.eventID
+        range: string
+        mandatory: true
+      channels:
+        propertyTerm: events.eventChannel
+        range: ChannelNode
+        allowMultiple: true
+
+  ChannelNode:
+    classTerm: events.EventChannel
+    mapping:
+      channelID:
+        propertyTerm: events.channelID
+        range: string
+      subjects:
+        propertyTerm: events.eventSubject
+        range: SubjectNode
+        allowMultiple: true
+
+  SubjectNode:
+    classTerm: events.EventSubject
+    mapping:
+      subjectID:
+        propertyTerm: events.eventSubjectID
+        range:  string
+      eventPattern:
+        propertyTerm: events.subjectPattern
+        range: string
+        enum:
+          -pub-sub
+          -p2p
+          #- fanout
+          #- stream
+      eventTransports:
+        propertyTerm: transports.eventTransport
+        range:  TransportNode
+        allowMultiple: true
+      supportedEvents:
+        propertyTerm: events.baseEvent
+        range:  EventNode
+        allowMultiple: true
+
+  TransportNode:
+    classTerm: transports.EventTransport
+    mapping:
+      transportID:
+        propertyTerm: transports.transportID
+        range: string
+        mandatory: true
+      transportType:
+        propertyTerm: transports.transportType
+        range: string
+        enum:
+          -jms
+          -ems
+          -rv
+          -mqtt
+          -amqp
+          -kafka
+          -solace
+          -nats
+        mandatory: true
+      transportVendor:
+        propertyTerm: transports.transportVendor
+        range: string
+        mandatory: true
+        enum:
+          -ActiveMQ
+          -TIBCO
+          -Sonic
+          -Fiorano
+          -RedHat
+          -WebLogic
+          -Mosquitto
+          -WMQ
+      transportConnection:
+        propertyTerm: transports.transportConection
+        range: ConnectionNode
+        mandatory: true
+
+  EventConsumerNode:
+    classTerm: events.EventConsumer
+    mapping:
+      applicationID:
+        propertyTerm: events.applicationID
+        range: string
+      consumerID:
+        propertyTerm: events.consumerID
+        range: string
+      domainID:
+          propertyTerm: events.domainID
+          range: string
+      userID:
+        propertyTerm: events.userID
+        range: string
+      consumerChannel:
+        propertyTerm: events.eventChannel
+        range: ChannelNode
+      consumerSubject:
+        propertyTerm: events.eventSubject
+        range: SubjectNode
+        allowMultiple: true
+      consumerSecurityPolicies:
+        propertyTerm: policies.basePolicy
+        range: policyLib.BasePolicyNode
+        allowMultiple: true
+
+
+  EventProducerNode:
+    classTerm: events.EventProducer
+    mapping:
+      applicationID:
+        propertyTerm: events.applicationID
+        range:  string
+      producerID:
+        propertyTerm: events.producerID
+        range: string
+      domainID:
+        propertyTerm: events.domainID
+        range:  string
+      userID:
+        propertyTerm: events.userID
+        range:  string
+      producerChannel:
+        propertyTerm: events.eventChannel
+        range: ChannelNode
+      producerSubject:
+        propertyTerm: events.eventSubject
+        range:  SubjectNode
+        allowMultiple: true
+      producerSecurityPolicies:
+        propertyTerm: policies.basePolicy
+        range:  policyLib.BasePolicyNode
+        allowMultiple: true
+
+  EventedApiNode:
+    classTerm: events.EventedAPI
+    mapping:
+      apiPersona:
+        propertyTerm: events.apiPersona
+        range: string
+        enum:
+          -Producer
+          -Consumer
+          -All
+      eventProducer:
+        propertyTerm: events.eventProducer
+        range: EventProducerNode
+        allowMultiple: false
+      eventConsumer:
+        propertyTerm: events.eventConsumer
+        range: EventConsumerNode
+        allowMultiple: false
+
+
+  PersistenceConnectionNode:
+      classTerm: persistence.PersistenceConnection
+      mapping:
+        persistenceConnectionID:
+          propertyTerm: persistence.persistenceConnectionID
+          range:  string
+        persistenceConnectionHost:
+          propertyTerm: persistence.persistenceConnectionHost
+          range:  string
+        persistenceConnectionPort:
+          propertyTerm: persistence.persistenceConnectionPort
+          range: integer
+        persistenceConnectionUserID:
+          propertyTerm: persistence.persistenceConnectionUser
+          range: string
+        persistenceConnectionPassword:
+          propertyTerm: persistence.persistenceConnectionPassword
+          range:  string
+
+  PersistenceNode:
+    classTerm: persistence.PersistenceMechanism
+    mapping:
+      persistenceMechanismID:
+        propertyTerm: persistence.persistenceMechanismID
+        range: string
+      persistenceProtocol:
+        propertyTerm:  persistence.persistenceProtocol
+        range: string
+        enum:
+          -File
+          -JMS
+          -JDBC
+      persistenceMediumVendor:
+        propertyTerm: persistence.persistenceMediumVendor
+        range: string
+        enum: Oracle, MySQL, IBM, Microsoft,Progress
+      persistenceConnection:
+        propertyTerm: persistence.persistenceConnection
+        range: PersistenceConnectionNode

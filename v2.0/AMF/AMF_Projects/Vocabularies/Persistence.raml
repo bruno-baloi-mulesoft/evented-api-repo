@@ -1,0 +1,51 @@
+#%RAML 1.0 Vocabulary
+usage: Vocabulary to describe the Persistence mechanisms for Evented API Structure
+version: 0.1
+base: http://raml.org/vocabularies/persistence#
+vocabulary: Persistence
+
+external:
+  schema-org: "http://schema.org/"
+  hydra: "http://www.w3.org/ns/hydra/core#"
+  shacl: "http://www.w3.org/ns/shacl#"
+
+propertyTerms:
+  persistenceMechanismID:
+    range: string
+  persistenceProtocol:
+    description: JMS, JDBC, File etc.
+    range: string
+  persistenceConnectionID:
+    range: string
+  persistenceConnectionUser:
+    range: string
+  persistenceConnectionPassword:
+    range: string
+  persistenceConnectionHost:
+    range: string
+  persistenceConnectionPort:
+    range: integer
+  persistenceConnection:
+    range: PersistenceConnection
+  persistenceMediumVendor:
+    range: string
+
+
+
+
+classTerms:
+  PersistenceMechanism:
+    displayName: Persistence Mechanism
+    description: Persistence Mechanism
+    properties:
+      - persistenceMechanismID
+      - persistenceProtocol
+      - persistenceMediumVendor
+
+  PersistenceConnection:
+    properties:
+      - persistenceConnectionID
+      - persistenceConnectionUser
+      - persistenceConnectionHost
+      - persistenceConnectionPort
+      - persistenceConnectionPassword
