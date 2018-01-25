@@ -1,0 +1,20 @@
+{
+	"eventID":"deb123",
+	"eventDomain":"Banking_Core",
+	"eventCategory": "business",
+	"eventType": "debitEvent",
+	"eventPayloadType": "application/json",
+	"eventPayload": {
+		"Sum": 333,
+ 		"ExchangeRate": 0,
+		  "SourceAccount": {
+		    "UserId": "123",
+		    "AccountNumber": "12345-sv",
+		    "AccountType": "Savings",
+		    "BankName": "A Bank",
+		    "BankCode": "123-abc",
+		    "Currency": "CAD"
+		  }
+		
+	}
+}
