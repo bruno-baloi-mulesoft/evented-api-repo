@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:request-config name="HTTP_Request_Configuration_ForEx" host="openexchangerates.org" port="80" doc:name="HTTP Request Configuration" protocol="HTTP"/>
+    <flow name="forexFlow">
+        <set-variable variableName="local" value="TRUE" doc:name="Variable"/>
+        <choice doc:name="Choice">
+            <when expression="#[flowVars.local=='FALSE']">
+                <http:request config-ref="HTTP_Request_Configuration_ForEx" path="/api/latest.json" method="GET" doc:name="HTTP">
+                    <http:request-builder>
+                        <http:query-param paramName="app_id" value="d210d0bf733b4138963f5fd8b592be48"/>
+                    </http:request-builder>
+                </http:request>
+                <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+            </when>
+            <otherwise>
+                <parse-template location="${forex.data}" doc:name="Parse Template"/>
+                <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+            </otherwise>
+        </choice>
+        <set-payload value="#[payload]" mimeType="application/json" doc:name="Set Payload"/>
+        <logger message="ForEx Data : #[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

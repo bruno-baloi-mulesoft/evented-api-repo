@@ -1,0 +1,31 @@
+#%RAML Library / RAML 1.0 Dialect
+
+usage: Dialect to describe validations over RAML documents
+uses:
+  policies: ../Vocabularies/EventPolicy.raml
+  #events: ../Vocabularies/Event.raml
+
+
+external:
+  schema-org: "http://schema.org/"
+  shacl: "http://www.w3.org/ns/shacl#"
+nodeMappings:
+
+
+  BasePolicyNode:
+    classTerm: policies.BasePolicy
+    mapping:
+      policyID:
+        propertyTerm: policies.policyID
+        range: string
+      policyType:
+        propertyTerm: policies.policyType
+        range: string
+        enum:
+        - structure
+        - pattern
+        - acl
+        - volume
+      enforcementCriteria:
+        propertyTerm: policies.enforcementCriteria
+        range: string

@@ -52,10 +52,17 @@
     		<version>2.4.0</version>
 		</dependency>
 		<!-- NATS CIENT-->
+		<!--
 		<dependency>
     		<groupId>com.github.cloudfoundry-community</groupId>
     		<artifactId>nats-client</artifactId>
     		<version>0.6.7</version>
+		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/io.nats/jnats -->
+		<dependency>
+		    <groupId>io.nats</groupId>
+		    <artifactId>jnats</artifactId>
+		    <version>1.0</version>
 		</dependency>
 		<!--  Solace -->
 		<dependency>
@@ -116,7 +123,7 @@
 		    <artifactId>lucene-classification</artifactId>
 		    <version>7.2.0</version>
 		</dependency>
-		<!--  
+		 
 		
 		  <dependency>
     		<groupId>org.apache.jena</groupId>
@@ -128,7 +135,7 @@
     		<artifactId>jena-arq</artifactId>
     		<version>3.5.0</version>
 		</dependency>
-		  -->
+		  
 			<!-- 
 		   <dependency>
 		    <groupId>jsonld</groupId>

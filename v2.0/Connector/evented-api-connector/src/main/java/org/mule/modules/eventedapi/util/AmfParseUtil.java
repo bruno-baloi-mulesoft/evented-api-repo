@@ -4,6 +4,7 @@ package org.mule.modules.eventedapi.util;
 import java.io.BufferedReader;
 
 
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -49,6 +50,8 @@ import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 
+import amf.model.document.*;
+
 //import amf.client.*;
 //import amf.client.commands.*;
 
@@ -64,6 +67,7 @@ public class AmfParseUtil {
 
 	
 	private static AmfParseUtil instance=null;
+	private Document amfDoc=null;
 	
 	public static AmfParseUtil getInstance()
 	{
@@ -388,6 +392,14 @@ public class AmfParseUtil {
 		}
 	
 		return _configVo;
+	}
+
+	public Document getAmfDoc() {
+		return amfDoc;
+	}
+
+	public void setAmfDoc(Document amfDoc) {
+		this.amfDoc = amfDoc;
 	}
 	
 	

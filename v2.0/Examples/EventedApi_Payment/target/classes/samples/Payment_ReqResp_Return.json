@@ -1,0 +1,9 @@
+{
+	"Payment": "333.333",
+	"ExchangeRate": "0.5",
+	"SourceAccount": "cde",
+	"SourceBank": "bankA",
+	"DestinationAccount": "abc",
+	"DestinationBank": "bankB",
+	"PaymentStatus": "SETTLEDD"
+}

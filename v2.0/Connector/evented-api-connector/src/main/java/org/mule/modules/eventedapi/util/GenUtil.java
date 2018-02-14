@@ -14,6 +14,7 @@ import org.mule.modules.eventedapi.vo.ConnectionVO;
 import org.mule.modules.eventedapi.vo.ConsumerVO;
 import org.mule.modules.eventedapi.vo.EventVO;
 import org.mule.modules.eventedapi.vo.EventedAPIConnectorConfigVO;
+import org.mule.modules.eventedapi.vo.PolicyVO;
 import org.mule.modules.eventedapi.vo.ProducerVO;
 import org.mule.modules.eventedapi.vo.SubjectVO;
 import org.mule.modules.eventedapi.vo.TransportVO;
@@ -94,6 +95,7 @@ public class GenUtil
 			logger.info("	Subject Name: "+ _subjVo.getSubjectName());
 			logger.info("	Subject Type"+ _subjVo.getSubjectType());
 			logger.info("	SUbject Event Pattern: "+ _subjVo.getEventPattern());
+			logger.info("	Enable Policies: "+ _subjVo.isEnablePolicies());
 			
 			List _evList = _subjVo.getSupportedEventList();
 			logger.info("	----Permitted Events-----");
@@ -133,6 +135,21 @@ public class GenUtil
 					logger.info("	Connection User: "+_con.getUser());
 					logger.info("	Connection Password: "+_con.getPassword());
 			}
+			logger.info("	----Policies-----");
+			List _policyList = _subjVo.getPolicyList();
+			Iterator _pIt = _policyList.iterator();
+			while(_pIt.hasNext())
+			{
+				PolicyVO _pVO = (PolicyVO) _pIt.next();
+				logger.info("	Policy Name: " + _pVO.getPolicyName());
+				logger.info("	Policy NS: " + _pVO.getPolicyNS());
+				logger.info("	Policy ID: " + _pVO.getPolicyID());
+				logger.info("	Policy Type: " + _pVO.getPolicyType());
+				logger.info("	Policy Event Directione: " + _pVO.getDirection());
+				logger.info("	Policy Enforcement Criteria: " + _pVO.getEnforcementCriteria());
+
+			}
+			
 
 			_subjI++;
 			

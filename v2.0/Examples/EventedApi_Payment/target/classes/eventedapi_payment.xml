@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:evented-api="http://www.mulesoft.org/schema/mule/evented-api" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:objectstore="http://www.mulesoft.org/schema/mule/objectstore"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/objectstore http://www.mulesoft.org/schema/mule/objectstore/current/mule-objectstore.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/evented-api http://www.mulesoft.org/schema/mule/evented-api/current/mule-evented-api.xsd">
+    <http:listener-config name="payment-httpListenerConfig" host="0.0.0.0" port="${http.port}" doc:name="HTTP Listener Configuration" connectionIdleTimeout="300000000"/>
+    <apikit:config name="payment-config" raml="payment.raml" consoleEnabled="false" doc:name="Router"/>
+   
+   <spring:beans>
+        <spring:bean id="CEMObjectStore" class="org.mule.util.store.SimpleMemoryObjectStore"/>
+    </spring:beans>
+    <objectstore:config name="MyObjectStore" objectStore-ref="CEMObjectStore" doc:name="ObjectStore" partition="core"/>
+  
+   <http:request-config name="HTTP_Request_Configuration_PaymentProcessor" host="localhost" port="${http.payment.processor.port}" doc:name="HTTP Request Configuration" />
+    <vm:connector name="VM" validateConnections="true" doc:name="VM"/>
+  
+   
+    <flow name="payment-main">
+        <http:listener config-ref="payment-httpListenerConfig" path="/api/*" doc:name="HTTP"/>
+        <apikit:router config-ref="payment-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="payment-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    <flow name="payment-console">
+        <http:listener config-ref="payment-httpListenerConfig" path="/console/*" doc:name="HTTP"/>
+        <apikit:console config-ref="payment-config" doc:name="APIkit Console"/>
+    </flow>
+    <flow name="post:/Payment:application/json:payment-config">
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <set-variable variableName="PaymentRaw" value="#[payload]" mimeType="application/json" doc:name="Variable" metadata:id="95c752ee-4e02-45b8-9666-4a01cda16fb5"/>
+        <logger message="Payment For processing: #[payload]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="6d852b9b-d557-4c10-a4a0-d457bb2367ec">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+        <set-variable variableName="PaymentReq" value="#[payload]" doc:name="Variable"/>
+        <flow-ref name="forexFlow" doc:name="forexFlow"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="f9a56493-6be7-4784-88b2-14de8605d40d">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+        <set-variable variableName="ExchangeRates" value="#[payload]" doc:name="Variable"/>
+        <logger message="Destination Currency: #[flowVars.PaymentReq.DestinationAccount.Currency], Source Currency: #[flowVars.PaymentReq.SourceAccount.Currency]" level="INFO" doc:name="Logger"/>
+        <choice doc:name="Choice">
+            <when expression="#[flowVars.PaymentReq.DestinationAccount.Currency=='USD' &amp;&amp; flowVars.PaymentReq.SourceAccount.Currency == 'USD']">
+                <logger message="Both Src &amp; Dest are USD" level="INFO" doc:name="NoConversion"/>
+                <objectstore:store config-ref="MyObjectStore" key="EXCHANGE_RATE" value-ref="1" overwrite="true" doc:name="ObjectStore"/>
+            </when>
+            <when expression="#[flowVars.PaymentReq.DestinationAccount.Currency=='USD' &amp;&amp; flowVars.PaymentReq.SourceAccount.Currency != 'USD']">
+                <logger message="Dest is USD and Src is  #[flowVars.PaymentReq.SourceAccount.Currency] = #[flowVars.ExchangeRates.rates[flowVars.PaymentReq.SourceAccount.Currency]]" level="INFO" doc:name="Conversion"/>
+                <objectstore:store config-ref="MyObjectStore" key="EXCHANGE_RATE" value-ref="#[flowVars.ExchangeRates.rates[flowVars.PaymentReq.SourceAccount.Currency]]" overwrite="true" doc:name="ObjectStore"/>
+            </when>
+            <otherwise>
+                <logger message="Invalid Exchange !" level="INFO" doc:name="Logger"/>
+            </otherwise>
+        </choice>
+        <component doc:name="Java">
+            <singleton-object class="org.mule.modules.eventedapi.messaging.UUIDGen"/>
+        </component>
+        <set-variable variableName="payment_uui" value="#[payload]" mimeType="application/java" doc:name="Variable"/>
+        <objectstore:retrieve config-ref="MyObjectStore" key="EXCHANGE_RATE" doc:name="ObjectStore"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="a709af71-4490-4ea0-a7ac-a1c8c9000f8d">
+            <dw:input-variable mimeType="application/json" variableName="PaymentRaw"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	eventID: "pay123:" ++ flowVars.payment_uui,
+	eventDomain: "Banking_Core",
+	eventCategory: "business",
+	eventType: "paymentEvent",
+	eventPayloadType: "application/json",
+	eventPayload: {
+		Sum: flowVars.PaymentRaw.Sum,
+		ExchangeRate: payload as :number,
+		SourceAccount: {
+		UserId: flowVars.PaymentRaw.SourceAccount.UserId,
+		AccountNumber: flowVars.PaymentRaw.SourceAccount.AccountNumber,
+		AccountType: flowVars.PaymentRaw.SourceAccount.AccountType,
+		BankName: flowVars.PaymentRaw.SourceAccount.BankName,
+		BankCode: flowVars.PaymentRaw.SourceAccount.BankCode,
+		Currency: flowVars.PaymentRaw.SourceAccount.Currency
+	},
+	DestinationAccount: {
+		UserId: flowVars.PaymentRaw.DestinationAccount.UserId,
+		AccountNumber: flowVars.PaymentRaw.DestinationAccount.AccountNumber,
+		AccountType: flowVars.PaymentRaw.DestinationAccount.AccountType,
+		BankName: flowVars.PaymentRaw.DestinationAccount.BankName,
+		BankCode: flowVars.PaymentRaw.DestinationAccount.BankCode,
+		Currency: flowVars.PaymentRaw.DestinationAccount.Currency
+	}
+	}
+	
+	
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <set-variable variableName="payment_event" value="#[payload]" mimeType="application/json" doc:name="Variable"/>
+        <logger message="storing UUID = #[flowVars.payment_uui]" level="INFO" doc:name="Logger"/>
+        <objectstore:store config-ref="MyObjectStore" key="#[flowVars.payment_uui]" value-ref="#[0]" overwrite="true" doc:name="ObjectStore"/>
+        <objectstore:store config-ref="MyObjectStore" key="#[flowVars.payment_uui]-payload" value-ref="#[flowVars.payment_event]" doc:name="ObjectStore"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectPayment" message-ref="#[flowVars.payment_event]" doc:name="EventedApi"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="04cf68e2-89eb-43e7-9e47-97b889e48fc5">
+            <dw:input-variable mimeType="application/json" variableName="PaymentRaw"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	Payment: flowVars.PaymentRaw.Sum as :string,
+	ExchangeRate: flowVars.PaymentRaw.ExchangeRate as :string,
+	SourceAccount: flowVars.PaymentRaw.SourceAccount.AccountNumber,
+	SourceBank: flowVars.PaymentRaw.SourceAccount.BankName,
+	DestinationAccount: flowVars.PaymentRaw.DestinationAccount.AccountNumber,
+	DestinationBank: flowVars.PaymentRaw.DestinationAccount.BankName,
+	PaymentStatus: "SUBMITTED"
+}]]></dw:set-payload>
+        </dw:transform-message>
+    </flow>
+    <apikit:mapping-exception-strategy name="payment-apiKitGlobalExceptionMapping">
+        <apikit:mapping statusCode="404">
+            <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Resource not found&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="405">
+            <apikit:exception value="org.mule.module.apikit.exception.MethodNotAllowedException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Method not allowed&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="415">
+            <apikit:exception value="org.mule.module.apikit.exception.UnsupportedMediaTypeException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Unsupported media type&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="406">
+            <apikit:exception value="org.mule.module.apikit.exception.NotAcceptableException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Not acceptable&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="400">
+            <apikit:exception value="org.mule.module.apikit.exception.BadRequestException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Bad request&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+    </apikit:mapping-exception-strategy>
+</mule>

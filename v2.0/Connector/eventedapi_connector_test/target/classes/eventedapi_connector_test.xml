@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
     <evented-api:config name="EventedApi__Configuration" amfDocSpecificationFile="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/examples/EventedAPI_Banking.raml" amfDialectSpecificationDir="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/Dialects" doc:name="EventedApi: Configuration" amfLib="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/lib/amf.jar" amParseCmd="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/amf_parse.sh" eventedAPiConnectorProperties="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/eventedapi-connector.properties"/>
     <flow name="eventedapi_connector_testFlow1">
-        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/test" doc:name="HTTP" allowedMethods="GET"/>
         <set-payload value="blahblah" doc:name="Set Payload" mimeType="application/json"/>
         <evented-api:send-event config-ref="EventedApi__Configuration" doc:name="EventedApi" message-ref="#[payload]" subject="subjectTransfer"/>
     </flow>
@@ -30,5 +30,10 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 } ]]></dw:set-payload>
         </dw:transform-message>
         <logger message="got Event from Transport : #[payload.transportType], payload: #[payload.messagePayload]" level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="eventedapi_connector_testFlow2">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/" allowedMethods="POST" doc:name="HTTP"/>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectTransfer" message-ref="#[payload]" doc:name="EventedApi"/>
     </flow>
 </mule>

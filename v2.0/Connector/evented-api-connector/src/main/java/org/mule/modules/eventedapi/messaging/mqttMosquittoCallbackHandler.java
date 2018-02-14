@@ -45,7 +45,7 @@ public class mqttMosquittoCallbackHandler implements ICallback, MqttCallback
 		
 		Event _newEvent = new Event();
 		
-		_newEvent.setMessagePayload(pMessage);
+		_newEvent.setMessagePayload((String)pMessage);
 		_subject.addInboundEvent(_newEvent);
 	}
 

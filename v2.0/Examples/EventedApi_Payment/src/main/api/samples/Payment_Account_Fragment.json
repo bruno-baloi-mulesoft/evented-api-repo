@@ -1,0 +1,13 @@
+ {
+ 		
+ 		"Account":{
+ 		  "UserId":"123",	
+          "AccountNumber":"12345-sv",
+          "AccountType":"Savings",
+          "BankName":"A Bank",
+          "BankCode": "123-abc",
+          "Currency": "CAD",       
+          "Sum":333.00 
+ 		}
+    
+ }

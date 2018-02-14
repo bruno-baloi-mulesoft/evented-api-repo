@@ -10,5 +10,10 @@ public interface ISubject extends ISubscriber, IPublisher
 	public boolean validateEvent(Event pEvent);
 	public void addInboundEvent(Event pEvent);
 	public void startTransports();
+	public void addConsumerPolicyReference(IPolicy pPolicy);
+	public void addProducerPolocyReference(IPolicy pPolicy);
+	public void setPolicies(List pPolicyList);
+	public List getSupportedEventList();
+	public void setProducer(boolean pProducer);
 
 }

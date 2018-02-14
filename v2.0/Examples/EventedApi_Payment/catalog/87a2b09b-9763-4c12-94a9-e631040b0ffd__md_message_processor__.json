@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "debit"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "uuid_value"
+        }
+    },
+    "id": "87a2b09b-9763-4c12-94a9-e631040b0ffd",
+    "version": "5.2.0.0"
+}

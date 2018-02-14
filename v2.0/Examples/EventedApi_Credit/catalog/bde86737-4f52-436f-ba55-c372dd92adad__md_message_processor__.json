@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "EventJavaObject"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "eventPayload"
+        }
+    },
+    "id": "bde86737-4f52-436f-ba55-c372dd92adad",
+    "version": "5.2.0.0"
+}

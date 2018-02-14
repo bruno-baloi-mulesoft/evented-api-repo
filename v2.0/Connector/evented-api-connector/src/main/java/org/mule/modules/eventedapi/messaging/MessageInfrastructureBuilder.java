@@ -143,9 +143,13 @@ public class MessageInfrastructureBuilder
 				String _subjName = _vo.getSubjectName();
 				List _eventList = _vo.getSupportedEventList();
 				List _transportList = _vo.getTransportList();
+				List _policyList = _vo.getPolicyList();
 				
 				String _key = _subjName;
 				ISubject _subj= new SubjectController();
+				_subj.setPolicies(_policyList);
+				_subj.addSupportedEvents(_eventList);
+				_subj.setProducer(pProducer);
 				
 				if( ! completeSubjectMap.containsKey(_key))
 				{
@@ -155,6 +159,7 @@ public class MessageInfrastructureBuilder
 					//_subj.addTransports(_tList);
 					_subj.startTransports();
 					
+					
 					completeSubjectMap.put(_key, _subj);
 					
 				}
@@ -162,6 +167,8 @@ public class MessageInfrastructureBuilder
 					producer.setProdSubjMap(completeSubjectMap);
 				else
 					consumer.setConsumerSubjMap(completeSubjectMap);
+				
+				
 				
 			}
 	}

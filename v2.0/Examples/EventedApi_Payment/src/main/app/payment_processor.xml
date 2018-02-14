@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:objectstore="http://www.mulesoft.org/schema/mule/objectstore" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:evented-api="http://www.mulesoft.org/schema/mule/evented-api" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/evented-api http://www.mulesoft.org/schema/mule/evented-api/current/mule-evented-api.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/objectstore http://www.mulesoft.org/schema/mule/objectstore/current/mule-objectstore.xsd">
+    <evented-api:config name="EventedApi__Configuration" amParseCmd="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Payment/src/main/resources/amf_parse.sh" amfLib="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Payment/src/main/resources/lib/amf.jar" amfDocSpecificationFile="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/examples/EventedAPI_Banking_Payment.raml" amfDialectSpecificationDir="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/Dialects" eventedAPiConnectorProperties="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Payment/src/main/resources/eventedapi-connector.properties" doc:name="EventedApi: Configuration"/>
+    <flow name="payment_processorFlow">
+        <evented-api:event-consumer config-ref="EventedApi__Configuration" subject="subjectPayment" doc:name="EventedApi (Streaming)"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="5cf5daae-0f32-437e-b9f4-7a74302d35c8">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.messagePayload]]></dw:set-payload>
+        </dw:transform-message>
+        <set-variable variableName="payment_in_var" value="#[payload]" mimeType="application/json" doc:name="Variable"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="6f96ff68-ff8f-433a-81be-187b972bf0a6">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	eventID: "deb123:" ++ (payload.eventID splitBy ":")[1],
+	eventDomain: "Banking_Core",
+	eventCategory: "business",
+	eventType: "debitEvent",
+	eventPayloadType: "application/json",
+	eventPayload: {
+		Sum: payload.eventPayload.Sum,
+		ExchangeRate: payload.eventPayload.ExchangeRate,
+		SourceAccount: {
+			UserId: payload.eventPayload.SourceAccount.UserId,
+			AccountNumber: payload.eventPayload.SourceAccount.AccountNumber,
+			AccountType: payload.eventPayload.SourceAccount.AccountType,
+			BankName: payload.eventPayload.SourceAccount.BankName,
+			BankCode: payload.eventPayload.SourceAccount.BankCode,
+			Currency: payload.eventPayload.SourceAccount.Currency
+		}
+	}
+}]]></dw:set-payload>
+            <dw:set-variable variableName="payment_in_uuid"><![CDATA[%dw 1.0
+%output application/java
+---
+"payment:" ++ (payload.eventID splitBy ":")[1]]]></dw:set-variable>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectDebit" message-ref="#[payload]" doc:name="EventedApi-Debit"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="c6214a38-7e52-49f1-ab09-5fe9495f999c">
+            <dw:input-variable mimeType="application/json" variableName="payment_in_var"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	eventID: "cre123:" ++ (payload.eventID splitBy ":")[1],
+	eventDomain: "Banking_Core",
+	eventCategory: "business",
+	eventType: "creditEvent",
+	eventPayloadType: "application/json",
+	eventPayload: {
+		Sum: flowVars.payment_in_var.eventPayload.Sum,
+		ExchangeRate: flowVars.payment_in_var.eventPayload.ExchangeRate,
+		DestinationAccount: {
+			UserId: flowVars.payment_in_var.eventPayload.DestinationAccount.UserId,
+			AccountNumber: flowVars.payment_in_var.eventPayload.DestinationAccount.AccountNumber,
+			AccountType: flowVars.payment_in_var.eventPayload.DestinationAccount.AccountType,
+			BankName: flowVars.payment_in_var.eventPayload.DestinationAccount.BankName,
+			BankCode: flowVars.payment_in_var.eventPayload.DestinationAccount.BankCode,
+			Currency: flowVars.payment_in_var.eventPayload.DestinationAccount.Currency
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectCredit" message-ref="#[payload]" doc:name="EventedApi-Credit"/>
+        <objectstore:store config-ref="MyObjectStore" key="#[flowVars.payment_in_uuid]" value-ref="#[flowVars.payment_in_var]" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="paymentSettlem">
+        <evented-api:event-consumer config-ref="EventedApi__Configuration" subject="subjectPaymentSettled" doc:name="EventedApi (Streaming)"/>
+        <flow-ref name="subjectPaymentSettleHandler" doc:name="Flow Reference"/>
+    </flow>
+    <flow name="subjectPaymentSettleHandler">
+        <dw:transform-message doc:name="Transform Message" metadata:id="9e6c2ab3-ab50-4e40-a759-6ed1cf99d54a">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.messagePayload]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="PAYMENTS - Got Event : #[payload]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="87a2b09b-9763-4c12-94a9-e631040b0ffd">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+(payload.eventID splitBy ":")[1]]]></dw:set-payload>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <set-variable variableName="uuid" value="#[payload]" mimeType="application/java" doc:name="Variable"/>
+        <logger message="UUID = #[payload]" level="INFO" doc:name="Logger"/>
+        <objectstore:contains config-ref="MyObjectStore" key="#[payload]" doc:name="ObjectStore"/>
+        <logger message="UUID exist: #[payload]" level="INFO" doc:name="Logger"/>
+        <choice doc:name="Choice">
+            <when expression="#[payload == true]">
+                <logger message=" ====&gt; UUID Exists !" level="INFO" doc:name="Logger"/>
+                <objectstore:retrieve config-ref="MyObjectStore" key="#[flowVars.uuid]" doc:name="ObjectStore"/>
+                <objectstore:retrieve config-ref="MyObjectStore" key="#[flowVars.uuid]" doc:name="ObjectStore"/>
+                <dw:transform-message doc:name="Transform Message">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload as :number]]></dw:set-payload>
+                </dw:transform-message>
+                <objectstore:store config-ref="MyObjectStore" key="#[flowVars.uuid]" value-ref="#[payload +1]" overwrite="true" doc:name="ObjectStore"/>
+                <objectstore:retrieve config-ref="MyObjectStore" key="#[flowVars.uuid]" doc:name="ObjectStore"/>
+                <logger message="Payment Eevent Arrival instance: #[payload]" level="INFO" doc:name="Logger"/>
+                <choice doc:name="Choice">
+                    <when expression="#[payload ==2 ]">
+                        <logger message="Payment Event #[flowVars.uuid] has been settled !  - Sending Notification !" level="INFO" doc:name="Logger"/>
+                        <objectstore:retrieve config-ref="MyObjectStore" key="payment:#[flowVars.uuid]" doc:name="ObjectStore"/>
+                        <dw:transform-message doc:name="Transform Message" metadata:id="4050e708-2c45-4da0-b733-7d9b532c0088">
+                            <dw:input-payload mimeType="application/json"/>
+                            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	Payment: payload.eventPayload.Sum as :string,
+	ExchangeRate: payload.eventPayload.ExchangeRate as :string,
+	SourceAccount: payload.eventPayload.SourceAccount.AccountNumber,
+	SourceBank: payload.eventPayload.SourceAccount.BankName,
+	DestinationAccount: payload.eventPayload.DestinationAccount.AccountNumber,
+	DestinationBank: payload.eventPayload.DestinationAccount.BankName,
+	PaymentStatus: "SETTLED"
+}]]></dw:set-payload>
+                        </dw:transform-message>
+                        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+                        <async doc:name="Async">
+                            <flow-ref name="payment_processorNotification" doc:name="Flow Reference"/>
+                        </async>
+                    </when>
+                    <otherwise>
+                        <logger level="INFO" doc:name="Logger"/>
+                    </otherwise>
+                </choice>
+            </when>
+            <otherwise>
+                <logger message="====&gt; UUID Does not exists !" level="INFO" doc:name="Logger"/>
+            </otherwise>
+        </choice>
+    </flow>
+</mule>

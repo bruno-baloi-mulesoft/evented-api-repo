@@ -1,0 +1,29 @@
+#%RAML Library / EventedAPIDialect 0.1
+
+title: Banking Policies
+
+policies:
+
+  structureValidationEnabledPolicy:
+    policyID: struct-123
+    policyType: structure
+    enforcementCriteria: true
+    eventDirection: bi-directional
+
+  structureValidationDisabledPolicy:
+    policyID: struct-124
+    policyType: structure
+    enforcementCriteria: false
+    eventDirection: bi-directional
+
+  patternValidationPolicy_1:
+    policyID: pattern-125
+    policyType: pattern
+    enforcementCriteria: BankCode, SourceAccount, DestinationAccount
+    eventDirection: outbound
+
+  compliancePolicy_1:
+   policyID: pattern-126
+   policyType: compliance
+   enforcementCriteria: when 'debit volume' > 'balance' then generate AlertEvent('insufficient funds')
+   eventDirection: inbound

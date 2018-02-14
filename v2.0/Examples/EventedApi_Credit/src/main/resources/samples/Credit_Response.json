@@ -1,0 +1,24 @@
+{
+	"eventID":"cre123c",
+	"eventDomain":"Banking_Core",
+	"eventCategory": "business",
+	"eventType": "creditEventConfirm",
+	"eventPayloadType": "application/json",
+	"eventPayload": {
+		"CreditConfirm": true,
+		"Balance": 123.123,
+		"Sum": 333,
+ 		"ExchangeRate": 0,
+		  "DestinationAccount": {
+		    "UserId": "126",
+		    "AccountNumber": "12347-cq",
+		    "AccountType": "Chequing",
+		    "BankName": "B Bank",
+		    "BankCode": "123-xyz",
+		    "Currency": "USD"
+		  }
+		
+	}
+}
+
+

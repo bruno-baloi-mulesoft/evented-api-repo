@@ -11,5 +11,6 @@
 	<classpathentry kind="src" path="src/main/wsdl"/>
 	<classpathentry kind="src" path="src/test/munit"/>
 	<classpathentry kind="con" path="MULE_LIB/EventedApi/org.mule.tooling.ui.contribution.evented-api.3.5.0"/>
+	<classpathentry kind="lib" path="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/eventedapi_connector_test/src/main/resources/lib/amf.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,0 +1,8 @@
+{
+  "SourceAccount": "12345-sv",
+  "SourceAcountBalance": 123,
+  "DestinationAccount": "12347-ck",
+  "DestinationAcountBalance": 123,
+  "ConvertedSum": 333,
+  "ExchangeRate": 0.81
+}

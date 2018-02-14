@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:twilio="http://www.mulesoft.org/schema/mule/twilio"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:twitter="http://www.mulesoft.org/schema/mule/twitter"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/twilio http://www.mulesoft.org/schema/mule/twilio/current/mule-twilio.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/twitter/current/mule-twitter.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <twitter:config name="Twitter__Configuration" accessKey="${twitter.access.key}" accessSecret="${twitter.access.secret}" consumerKey="${twitter.consumer.key}" consumerSecret="${twitter.consumer.secret}" doc:name="Twitter: Configuration"/>
+    <twilio:config name="Twilio__Basic_Authentication" username="${twilio.app.id}" password="${twilio.app.token}" doc:name="Twilio: Basic Authentication"/>
+
+<flow name="payment_processorNotification">
+        <logger message="Notifying Customer: #[payload]" level="INFO" doc:name="Logger"/>
+        <scatter-gather doc:name="Scatter-Gather">
+            <processor-chain>
+                <logger message="Sending  SMS" level="INFO" doc:name="Logger"/>
+                <set-payload value="Payment processed: SrcAcct: #[json:SourceAccount], DestAct: #[json:DestinationAccount], Sum: #[json:ConvertedSum]" doc:name="Set Payload"/>
+                <dw:transform-message doc:name="Transform Message">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+    body: payload,
+    from: "+16473605085",
+    to: "+16472747030"
+} as :object {
+    class : "org.mule.modules.twilio.pojo.sendmessagerequest.MessageInput"
+}]]></dw:set-payload>
+                </dw:transform-message>
+                <twilio:send-message config-ref="Twilio__Basic_Authentication" AccountSid="${twilio.app.id}" doc:name="Twilio"/>
+              
+            </processor-chain>
+            <processor-chain>
+                <logger message="Sending Tweet" level="INFO" doc:name="Logger"/>
+                <set-payload value="Payment processed: SrcAcct: #[json:SourceAccount], DestAct: #[json:DestinationAccount], Sum: #[json:ConvertedSum]" doc:name="Set Payload" />
+                <twitter:send-direct-message-by-screen-name config-ref="Twitter__Configuration" message="#[payload]" screenName="FreeRamses" doc:name="Twitter"/>
+            </processor-chain>
+        </scatter-gather>
+    </flow>
+</mule>

@@ -1,5 +1,6 @@
 org/mule/modules/eventedapi/generated/processors/EventProducerMessageProcessorDebuggable.class
 org/mule/modules/eventedapi/EventedApiConnector.class
+org/mule/modules/eventedapi/validation/BaseValidator.class
 org/mule/tooling/ui/contribution/EventedApiActivator.class
 org/mule/modules/eventedapi/clients/MQTTProducer.class
 org/mule/modules/eventedapi/util/AmfParseUtil.class
@@ -12,6 +13,7 @@ org/mule/modules/eventedapi/messaging/mqttMosquittoCallbackHandler.class
 org/mule/modules/eventedapi/parser/ParserException.class
 org/mule/modules/eventedapi/messaging/jcsmpSolaceTransport$1.class
 org/mule/modules/eventedapi/parser/AmfParserFactory.class
+org/mule/modules/eventedapi/validation/IValidation.class
 org/mule/modules/eventedapi/messaging/Event.class
 org/mule/modules/eventedapi/messaging/jcsmpSolaceTransport.class
 org/mule/modules/eventedapi/vo/ConnectionVO.class
@@ -20,11 +22,14 @@ org/mule/modules/eventedapi/validation/EventValidator.class
 org/mule/modules/eventedapi/generated/agents/DefaultSplashScreenAgent.class
 org/mule/modules/eventedapi/clients/MQTTConsumer.class
 org/mule/modules/eventedapi/generated/adapters/EventedApiConnectorMetadataAdapter.class
+org/mule/modules/eventedapi/validation/volumeValidator.class
 org/mule/modules/eventedapi/messaging/IPublisher.class
 org/mule/modules/eventedapi/messaging/natsAppceraTransport.class
+org/mule/modules/eventedapi/util/GeneralConstants.class
 org/mule/modules/eventedapi/generated/sources/EventConsumerMessageSource.class
 org/mule/modules/eventedapi/generated/processors/EventProducerMessageProcessor.class
 org/mule/modules/eventedapi/vo/ChannelVO.class
+org/mule/modules/eventedapi/validation/IValidator.class
 org/mule/modules/eventedapi/messaging/jmsActivemqTransport.class
 org/mule/modules/eventedapi/clients/SolaceProducer.class
 org/mule/modules/eventedapi/vo/EventedAPIConnectorConfigVO.class
@@ -35,6 +40,9 @@ org/mule/modules/eventedapi/clients/MuleConsumerFactory.class
 org/mule/modules/eventedapi/error/ErrorHandler.class
 org/mule/modules/eventedapi/util/GenUtil.class
 org/mule/modules/eventedapi/generated/config/EventedApiNamespaceHandler.class
+org/mule/modules/eventedapi/validation/patternValidator.class
+org/mule/modules/eventedapi/messaging/natsAppceraCallbackHandler.class
+org/mule/modules/eventedapi/vo/PolicyVO.class
 org/mule/modules/eventedapi/generated/adapters/EventedApiConnectorLifecycleInjectionAdapter.class
 org/mule/modules/eventedapi/messaging/mqttActivemqTransport.class
 org/mule/modules/eventedapi/messaging/mqttActivemqCallbackHandler.class
@@ -43,7 +51,9 @@ org/mule/modules/eventedapi/clients/SolaceConsumer.class
 org/mule/modules/eventedapi/generated/config/EventConsumerDefinitionParser.class
 org/mule/modules/eventedapi/messaging/mqttMosquittoTransport.class
 org/mule/modules/eventedapi/util/AmfConstants.class
+org/mule/modules/eventedapi/validation/ValidationResponse.class
 org/mule/modules/eventedapi/validation/SearchEngine.class
+org/mule/modules/eventedapi/validation/structureValidator.class
 org/mule/modules/eventedapi/generated/sources/EventConsumerMessageSource$1.class
 org/mule/modules/eventedapi/util/SolaceUtils.class
 org/mule/modules/eventedapi/parser/AmfReferencesParser.class
@@ -60,7 +70,9 @@ org/mule/modules/eventedapi/generated/devkit/SplashScreenAgent.class
 org/mule/modules/eventedapi/clients/BaseMuleConsumer.class
 org/mule/modules/eventedapi/generated/adapters/EventedApiConnectorConnectorConfigBasicAdapter.class
 org/mule/modules/eventedapi/clients/IMuleProducer.class
+org/mule/modules/eventedapi/validation/complianceValidator.class
 org/mule/modules/eventedapi/vo/ConsumerVO.class
+org/mule/modules/eventedapi/messaging/IPolicy.class
 org/mule/modules/eventedapi/messaging/ISubject.class
 org/mule/modules/eventedapi/generated/adapter/PoolManager.class
 org/mule/modules/eventedapi/messaging/MessageInfrastructureBuilder.class

@@ -1,9 +1,13 @@
 package org.mule.modules.eventedapi.parser;
 
+
 import amf.model.document.BaseUnit;
+
+
 import amf.model.document.Document;
 import amf.model.document.*;
 import amf.plugins.document.vocabularies.spec.Dialect;
+import amf.core.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +23,7 @@ public class AmfGenerator {
 	 public Document parseAmfFile(String path) throws ParserException {
 	        return handleFuture(amf.Core.parser("AMF Graph", "application/ld+json").parseFileAsync(filePrefix+path));
 	    }
-	 private Document handleFuture(CompletableFuture<BaseUnit> f) throws ParserException {
+	 private static Document handleFuture(CompletableFuture<BaseUnit> f) throws ParserException {
 	        try {
 	            return (Document)f.get();
 	        } catch (InterruptedException | ExecutionException e) {
@@ -30,6 +34,18 @@ public class AmfGenerator {
 	    private static final String filePrefix = "file://";
 	    
 	    
+	    public static Document parseAmfString(String api) throws ParserException {
+	       
+	    	Document _doc=null;
+	    	
+
+	    	//_doc=  handleFuture(amf.Core.parser("AMF Graph", "application/ld+json").parseStringAsync(api));
+	    	
+	    	return _doc;
+	        
+	        
+	    }
+	    
 	    public Document parseAmfFromJSONLD(String jsonldPath)
 	    {
 	    	Document parsedAmfApi = null;
@@ -37,6 +53,8 @@ public class AmfGenerator {
 	    	
 	    	try {
 	            workingDirectory = new File(".").getCanonicalPath() +  "/src/main/resources/";
+	          
+	            
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }

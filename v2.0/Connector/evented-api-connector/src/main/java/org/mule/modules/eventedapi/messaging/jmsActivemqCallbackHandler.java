@@ -68,7 +68,7 @@ public class jmsActivemqCallbackHandler implements MessageListener, ICallback
 		// TODO Auto-generated method stub
 
 		Event _newEvent = new Event();
-		_newEvent.setMessagePayload(pMessage);
+		_newEvent.setMessagePayload((String)pMessage);
 		_newEvent.setEventId(GenUtil.getInstance().genEventUUID());
 		_newEvent.setTransportType("jmsActivemq");
 		_subject.addInboundEvent(_newEvent);

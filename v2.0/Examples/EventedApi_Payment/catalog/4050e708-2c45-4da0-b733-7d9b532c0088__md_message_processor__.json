@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "payment"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "PaymentResp"
+        }
+    },
+    "id": "4050e708-2c45-4da0-b733-7d9b532c0088",
+    "version": "5.2.0.0"
+}

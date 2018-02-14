@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:evented-api="http://www.mulesoft.org/schema/mule/evented-api" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/evented-api http://www.mulesoft.org/schema/mule/evented-api/current/mule-evented-api.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <evented-api:config name="EventedApi__Configuration" amParseCmd="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Debit/src/main/resources/amf_parse.sh" amfLib="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Debit/src/main/resources/lib/amf.jar" amfDocSpecificationFile="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/examples/EventedAPI_Banking_Debit.raml" amfDialectSpecificationDir="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/Dialects" eventedAPiConnectorProperties="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Debit/src/main/resources/eventedapi-connector.properties" doc:name="EventedApi: Configuration"/>
+    <flow name="EventedApi_DebitFlow">
+        <evented-api:event-consumer config-ref="EventedApi__Configuration" subject="subjectDebit" doc:name="EventedApi (Streaming)"/>
+        <flow-ref name="subjectDebitHandler" doc:name="Flow Reference"/>
+    </flow>
+    <flow name="subjectDebitHandler">
+        <dw:transform-message doc:name="Transform Message" metadata:id="d046d030-f5ff-4524-a03a-5ace5fe5daa7">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.messagePayload]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="==&gt; Got Debit EVENT to process: #[payload] " level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="eac72178-9f24-465f-b17e-eb04d215a731">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	eventID: "deb123c:" ++ (payload.eventID splitBy ":")[1],
+	eventDomain: "Banking_Core",
+	eventCategory: "business",
+	eventType: "debitEventConfirm",
+	eventPayloadType: "application/json",
+	eventPayload: {
+		DebitConfirm: true,
+		Balance: 333.333,
+		Sum: payload.eventPayload.Sum,
+		ExchangeRate: payload.eventPayload.ExchangeRate,
+		SourceAccount: {
+			UserId: payload.eventPayload.SourceAccount.UserId,
+			AccountNumber: payload.eventPayload.SourceAccount.AccountNumber,
+			AccountType: payload.eventPayload.SourceAccount.AccountType,
+			BankName: payload.eventPayload.SourceAccount.BankName,
+			BankCode: payload.eventPayload.SourceAccount.BankCode,
+			Currency: payload.eventPayload.SourceAccount.Currency
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectPaymentSettled" message-ref="#[payload]" doc:name="EventedApi"/>
+    </flow>
+</mule>

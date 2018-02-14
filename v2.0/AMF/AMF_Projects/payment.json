@@ -1,0 +1,1304 @@
+[
+  {
+    "@id": "file://examples/EventedAPI_Banking_Payment.raml",
+    "@type": [
+      "http://raml.org/vocabularies/document#Document",
+      "http://raml.org/vocabularies/document#Fragment",
+      "http://raml.org/vocabularies/document#Module",
+      "http://raml.org/vocabularies/document#Unit"
+    ],
+    "http://raml.org/vocabularies/document#encodes": [
+      {
+        "@id": "file://examples/EventedAPI_Banking_Payment.raml#",
+        "@type": [
+          "http://raml.org/vocabularies/events#EventedAPI"
+        ],
+        "http://raml.org/vocabularies/events#subjects": [
+          {
+            "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment",
+            "@type": [
+              "http://raml.org/vocabularies/events#EventSubject"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "subjectPayment"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventSubjectID": [
+              {
+                "@value": "subjectPayment123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#subjectPattern": [
+              {
+                "@value": "pub-sub"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#eventTransport": [
+              {
+                "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/eventTransports/1",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransport"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "mqttTransportAMQ"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-target": [
+                  {
+                    "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-label": [
+                  {
+                    "@value": "transports.mqttTransportAMQ"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#transportID": [
+                  {
+                    "@value": "mqttAMQ123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#transportType": [
+                  {
+                    "@value": "mqtt"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#transportVendor": [
+                  {
+                    "@value": "Activemq"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#transportConection": [
+                  {
+                    "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ/transportConnection",
+                    "@type": [
+                      "http://raml.org/vocabularies/transports#EventTransportConnection"
+                    ],
+                    "http://raml.org/vocabularies/transports#connectionID": [
+                      {
+                        "@value": "mqttAmqConn123"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/transports#host": [
+                      {
+                        "@value": "localhost"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/transports#port": [
+                      {
+                        "@value": 1883
+                      }
+                    ],
+                    "http://raml.org/vocabularies/transports#username": [
+                      {
+                        "@value": "me"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/transports#password": [
+                      {
+                        "@value": "password"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/events#baseEvent": [
+              {
+                "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/supportedEvents/1",
+                "@type": [
+                  "http://raml.org/vocabularies/events#BaseEvent"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "paymentEvent"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-target": [
+                  {
+                    "@id": "file://examples/../Libraries/BankingEventLibrary.raml#paymentEvent"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-label": [
+                  {
+                    "@value": "bankingEvents.paymentEvent"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventID": [
+                  {
+                    "@value": "pay123"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventDomain": [
+                  {
+                    "@value": "Banking_Core"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventCategory": [
+                  {
+                    "@value": "business"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventType": [
+                  {
+                    "@value": "paymentEvent"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventPayloadType": [
+                  {
+                    "@value": "application/json"
+                  }
+                ],
+                "http://raml.org/vocabularies/events#eventPayload": [
+                  {
+                    "@value": ""
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/events#subjectEnablePolicies": [
+              {
+                "@value": false
+              }
+            ],
+            "http://raml.org/vocabularies/policies#basePolicy": [
+              {
+                "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/securityPolicies/1",
+                "@type": [
+                  "http://raml.org/vocabularies/policies#BasePolicy"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "structureValidationEnabledPolicy"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-target": [
+                  {
+                    "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#structureValidationEnabledPolicy"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-label": [
+                  {
+                    "@value": "policies.structureValidationEnabledPolicy"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#policyID": [
+                  {
+                    "@value": "struct-123"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#policyType": [
+                  {
+                    "@value": "structure"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#enforcementCriteria": [
+                  {
+                    "@value": "true"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+                  {
+                    "@value": "bi-directional"
+                  }
+                ]
+              },
+              {
+                "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/securityPolicies/2",
+                "@type": [
+                  "http://raml.org/vocabularies/policies#BasePolicy"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "patternValidationPolicy_1"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-target": [
+                  {
+                    "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#patternValidationPolicy_1"
+                  }
+                ],
+                "http://raml.org/vocabularies/document#link-label": [
+                  {
+                    "@value": "policies.patternValidationPolicy_1"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#policyID": [
+                  {
+                    "@value": "pattern-125"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#policyType": [
+                  {
+                    "@value": "pattern"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#enforcementCriteria": [
+                  {
+                    "@value": "BankCode, SourceAccount, DestinationAccount"
+                  }
+                ],
+                "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+                  {
+                    "@value": "outbound"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "http://raml.org/vocabularies/document#declares": [
+      {
+        "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment",
+        "@type": [
+          "http://raml.org/vocabularies/events#EventSubject"
+        ],
+        "http://schema.org/name": [
+          {
+            "@value": "subjectPayment"
+          }
+        ],
+        "http://raml.org/vocabularies/events#eventSubjectID": [
+          {
+            "@value": "subjectPayment123"
+          }
+        ],
+        "http://raml.org/vocabularies/events#subjectPattern": [
+          {
+            "@value": "pub-sub"
+          }
+        ],
+        "http://raml.org/vocabularies/transports#eventTransport": [
+          {
+            "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/eventTransports/1",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "mqttTransportAMQ"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-target": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-label": [
+              {
+                "@value": "transports.mqttTransportAMQ"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "mqttAMQ123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "mqtt"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Activemq"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "mqttAmqConn123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "localhost"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 1883
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "me"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "password"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "http://raml.org/vocabularies/events#baseEvent": [
+          {
+            "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/supportedEvents/1",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-target": [
+              {
+                "@id": "file://examples/../Libraries/BankingEventLibrary.raml#paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-label": [
+              {
+                "@value": "bankingEvents.paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "pay123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          }
+        ],
+        "http://raml.org/vocabularies/events#subjectEnablePolicies": [
+          {
+            "@value": false
+          }
+        ],
+        "http://raml.org/vocabularies/policies#basePolicy": [
+          {
+            "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/securityPolicies/1",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "structureValidationEnabledPolicy"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-target": [
+              {
+                "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#structureValidationEnabledPolicy"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-label": [
+              {
+                "@value": "policies.structureValidationEnabledPolicy"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "struct-123"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "structure"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "true"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "bi-directional"
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/EventedAPI_Banking_Payment.raml#subjectPayment/securityPolicies/2",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "patternValidationPolicy_1"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-target": [
+              {
+                "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#patternValidationPolicy_1"
+              }
+            ],
+            "http://raml.org/vocabularies/document#link-label": [
+              {
+                "@value": "policies.patternValidationPolicy_1"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "pattern-125"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "pattern"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "BankCode, SourceAccount, DestinationAccount"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "outbound"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "http://raml.org/vocabularies/document#references": [
+      {
+        "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml",
+        "@type": [
+          "http://raml.org/vocabularies/document#Module",
+          "http://raml.org/vocabularies/document#Unit"
+        ],
+        "http://raml.org/vocabularies/document#declares": [
+          {
+            "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#patternValidationPolicy_1",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "patternValidationPolicy_1"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "pattern-125"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "pattern"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "BankCode, SourceAccount, DestinationAccount"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "outbound"
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#compliancePolicy_1",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "compliancePolicy_1"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "pattern-126"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "compliance"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "when 'debit volume' > 'balance' then generate AlertEvent('insufficient funds')"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "inbound"
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#structureValidationEnabledPolicy",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "structureValidationEnabledPolicy"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "struct-123"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "structure"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "true"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "bi-directional"
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventPolicyLibraryBanking.raml#structureValidationDisabledPolicy",
+            "@type": [
+              "http://raml.org/vocabularies/policies#BasePolicy"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "structureValidationDisabledPolicy"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyID": [
+              {
+                "@value": "struct-124"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#policyType": [
+              {
+                "@value": "structure"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#enforcementCriteria": [
+              {
+                "@value": "false"
+              }
+            ],
+            "http://raml.org/vocabularies/policies#eventPolicyDirection": [
+              {
+                "@value": "bi-directional"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "@id": "file://examples/../Libraries/BankingEventLibrary.raml",
+        "@type": [
+          "http://raml.org/vocabularies/document#Module",
+          "http://raml.org/vocabularies/document#Unit"
+        ],
+        "http://raml.org/vocabularies/document#declares": [
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#loanProcessedEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "loanProcessedEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "loanProc123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "loanProcEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#paymentEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "pay123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "paymentEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#accountDebitEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "accountDebitEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "deb123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "debitEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#accountCreditEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "accountCreditEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "cre123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "creditEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#accountDebitEventConfirm",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "accountDebitEventConfirm"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "deb123C"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "debitEventConfirm"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#accountCreditEventConfirm",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "accountCreditEventConfirm"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "cre123c"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "creditEventConfirm"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#tradeEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "tradeEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "trade123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_CapitalMarkets"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "stockTradeEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#loanOriginationEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "loanOriginationEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "loanStart123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "loanStartEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/BankingEventLibrary.raml#accountTransferEvent",
+            "@type": [
+              "http://raml.org/vocabularies/events#BaseEvent"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "accountTransferEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventID": [
+              {
+                "@value": "trans123"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventDomain": [
+              {
+                "@value": "Banking_Core"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventCategory": [
+              {
+                "@value": "business"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventType": [
+              {
+                "@value": "transferEvent"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayloadType": [
+              {
+                "@value": "application/json"
+              }
+            ],
+            "http://raml.org/vocabularies/events#eventPayload": [
+              {
+                "@value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "@id": "file://examples/../Libraries/EventTransportLibrary.raml",
+        "@type": [
+          "http://raml.org/vocabularies/document#Module",
+          "http://raml.org/vocabularies/document#Unit"
+        ],
+        "http://raml.org/vocabularies/document#declares": [
+          {
+            "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "mqttTransportAMQ"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "mqttAMQ123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "mqtt"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Activemq"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransportAMQ/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "mqttAmqConn123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "localhost"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 1883
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "me"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransport",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "mqttTransport"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "mqttMosquitto123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "mqtt"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Mosquitto"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#mqttTransport/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "mqttConn123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "localhost"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 8089
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "me"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventTransportLibrary.raml#natsTransport",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "natsTransport"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "nats123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "nats"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Appcera"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#natsTransport/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "natsonn123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "localhost"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 8089
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "me"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventTransportLibrary.raml#jmsTransport",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "jmsTransport"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "activemq123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "jms"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Activemq"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#jmsTransport/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "jmsActivemqConn123"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "localhost"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 61616
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "me"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "password"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://examples/../Libraries/EventTransportLibrary.raml#solaceTransport",
+            "@type": [
+              "http://raml.org/vocabularies/transports#EventTransport"
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "solaceTransport"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportID": [
+              {
+                "@value": "SolaceTransport123"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportType": [
+              {
+                "@value": "jcsmp"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportVendor": [
+              {
+                "@value": "Solace"
+              }
+            ],
+            "http://raml.org/vocabularies/transports#transportConection": [
+              {
+                "@id": "file://examples/../Libraries/EventTransportLibrary.raml#solaceTransport/transportConnection",
+                "@type": [
+                  "http://raml.org/vocabularies/transports#EventTransportConnection"
+                ],
+                "http://raml.org/vocabularies/transports#connectionID": [
+                  {
+                    "@value": "msgvpn-akw23tz87"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#host": [
+                  {
+                    "@value": "mr-akw23icep.messaging.solace.cloud"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#port": [
+                  {
+                    "@value": 20832
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#username": [
+                  {
+                    "@value": "solace-cloud-client"
+                  }
+                ],
+                "http://raml.org/vocabularies/transports#password": [
+                  {
+                    "@value": "21cvakgpf5ccoa3oo3q51htip6"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+

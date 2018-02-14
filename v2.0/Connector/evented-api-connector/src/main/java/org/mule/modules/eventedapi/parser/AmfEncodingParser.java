@@ -164,16 +164,21 @@ public class AmfEncodingParser
 				}
 				*/
 				
+				
 				String _sNS = (String) _map.get(AmfConstants.ID);
 				String _sType =  (String) ((ArrayList) _map.get(AmfConstants.TYPE)).get(0);
 			
 				String _subjId = (String) ((HashMap) ((ArrayList) _map.get(AmfConstants.SUBJECT_ID_NS)).get(0)).get(AmfConstants.VALUE);
 				String _subjPattern = (String) ((HashMap) ((ArrayList) _map.get(AmfConstants.SUBJECT_PATTERN_NS)).get(0)).get(AmfConstants.VALUE);
 				String _subjName =(String) ((HashMap) ((ArrayList) _map.get(AmfConstants.EVENT_NAME)).get(0)).get(AmfConstants.VALUE);
+				Boolean _enablePolicy =(Boolean) ((HashMap) ((ArrayList) _map.get(AmfConstants.ENABLE_POLICY)).get(0)).get(AmfConstants.VALUE);
 				
+				
+				List policyList = processPolicies((ArrayList) _map.get(AmfConstants.BASE_POLICY_1));
 				
 				List eventTransportList = processEventTransports((ArrayList) _map.get(AmfConstants.EVENT_TRANSPORT));
 				List permittedEvetsList = processPermittedEvents((ArrayList) _map.get(AmfConstants.BASE_EVENT_SUBJECT));
+				
 				
 				
 				SubjectVO _subjVo = new SubjectVO();
@@ -183,8 +188,10 @@ public class AmfEncodingParser
 				_subjVo.setSubjectNS(_sNS);
 				_subjVo.setSubjectType(_sType);
 				_subjVo.setSubjectName(_subjName);
+				_subjVo.setEnablePolicies(_enablePolicy.booleanValue());
 				_subjVo.setSupportedEventList(permittedEvetsList);
 				_subjVo.setTransportList(eventTransportList);
+				_subjVo.setPolicyList(policyList);
 			
 				
 				//logger.info("###Subject ID:"+_subjVo.getSubjectId()+", Subj Name: "+_subjVo.getSubjectName()+", pattern: "+_subjVo.getEventPattern());
@@ -381,6 +388,14 @@ public class AmfEncodingParser
 		
 		return _producerVo;
 	}
+	private List processPolicies(ArrayList pPolicyList) 
+	{
+		
+		//logger.info("****** POlicy LIst = "+pPolicyList+"****");
+		return AmfReferencesParser.processPolicies(pPolicyList);
+	}
+	
+	
 	private ConsumerVO processEventConsumer(ArrayList pConsList)
 	{
 		logger.info("======Processing Event Consumer: "+pConsList.size()+"======");

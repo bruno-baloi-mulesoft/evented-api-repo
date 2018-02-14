@@ -1,0 +1,73 @@
+#%EventedAPIDialect 0.1
+
+uses:
+  transports: ../Libraries/EventTransportLibrary.raml
+  bankingEvents: ../Libraries/BankingEventLibrary.raml
+  policies: ../Libraries/EventPolicyLibraryBanking.raml
+
+
+subjects:
+
+
+  subjectCredit:
+     subjectID: subjectCredit124
+     eventPattern: pub-sub
+     eventTransports:
+       #- transports.jmsTransport
+       #- transports.mqttTransportAMQ
+       #- transports.solaceTransport
+       - transports.natsTransport
+     supportedEvents:
+       - bankingEvents.accountCreditEvent
+     enablePolicies: false
+     securityPolicies:
+       #-  policies.structureValidationEnabledPolicy
+  subjectPaymentSettled:
+     subjectID:  subjectPaymentSettle1279
+     eventPattern: pub-sub
+     eventTransports:
+      #- transports.jmsTransport
+      - transports.mqttTransportAMQ
+      #- transports.solaceTransport
+     supportedEvents:
+       #- bankingEvents.paccountDebitEventConfirm
+       - bankingEvents.accountCreditEventConfirm
+     enablePolicies: false
+     securityPolicies:
+        #-  policies.structureValidationEnabledPolicy
+        #-  policies.patternValidationPolicy_1
+
+
+channels:
+  channelCredit:
+    channelID: ch123
+    subjects:
+       - subjectCredit
+       - subjectPaymentSettled
+
+producers:
+  producer1:
+    applicationID:  app123
+    producerID: prod123_credit
+    domainID: myBankingDomain
+    userID: me
+    producerChannel: channelCredit
+    producerSubject:
+      - subjectPaymentSettled
+
+consumers:
+  consumer1:
+    applicationID: app123
+    consumerID: cons123_credit
+    domainID: myBankingDomain
+    userID: me
+    consumerChannel: channelCredit
+    consumerSubject:
+      - subjectCredit
+
+
+#the main encoded element
+
+apiPersona: All
+eventProducer: producer1
+eventConsumer: consumer1

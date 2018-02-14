@@ -1,0 +1,105 @@
+#%EventedAPIDialect 0.1
+
+uses:
+  transports: ../Libraries/EventTransportLibrary.raml
+  bankingEvents: ../Libraries/BankingEventLibrary.raml
+  policies: ../Libraries/EventPolicyLibraryBanking.raml
+
+
+subjects:
+  subjectPayment:
+     subjectID: subjectPayment123
+     eventPattern: pub-sub
+     eventTransports:
+      #- transports.jmsTransport
+      - transports.mqttTransportAMQ
+      #- transports.solaceTransport
+     supportedEvents:
+       - bankingEvents.paymentEvent
+       - bankingEvents.accountCreditEvent
+       - bankingEvents.accountDebitEvent
+       - bankingEvents.accountTransferEvent
+     enablePolicies: false
+     securityPolicies:
+       #-  policies.structureValidationEnabledPolicy
+       #-  policies.patternValidationPolicy_1
+  subjectPaymentSettled:
+     subjectID: subjectPaymentSettle1279
+     eventPattern: pub-sub
+     eventTransports:
+      #- transports.jmsTransport
+      - transports.mqttTransportAMQ
+      #- transports.solaceTransport
+     supportedEvents:
+      - bankingEvents.accountCreditEventConfirm
+      - bankingEvents.accountDebitEventConfirm
+     enablePolicies: false
+     securityPolicies:
+       #-  policies.structureValidationEnabledPolicy
+       #-  policies.patternValidationPolicy_1
+  subjectDebit:
+    subjectID: subjectDebit124
+    eventPattern: p2p
+    eventTransports:
+      - transports.jmsTransport
+      #- transports.mqttTransportAMQ
+      #- transports.solaceTransport
+    supportedEvents:
+      - bankingEvents.accountDebitEvent
+    enablePolicies: false
+    securityPolicies:
+      #-  policies.structureValidationEnabledPolicy
+  subjectCredit:
+     subjectID: subjectCredit124
+     eventPattern: pub-sub
+     eventTransports:
+       #- transports.jmsTransport
+       #- transports.mqttTransportAMQ
+       #- transports.solaceTransport
+       - transports.natsTransport
+     supportedEvents:
+       - bankingEvents.accountCreditEvent
+     enablePolicies: false
+     securityPolicies:
+       #-  policies.structureValidationEnabledPolicy
+
+
+
+channels:
+  channel1:
+    channelID: ch123
+    subjects:
+      - subjectPayment
+      - subjectCredit
+      - subjectDebit
+      - subjectPaymentSettled
+
+
+producers:
+  producer1:
+    applicationID:  app123
+    producerID: prod123
+    domainID: myBankingDomain
+    userID: me
+    producerChannel: channel1
+    producerSubject:
+      - subjectPayment
+      - subjectCredit
+      - subjectDebit
+
+consumers:
+  consumer1:
+    applicationID: app123
+    consumerID: cons123
+    domainID: myBankingDomain
+    userID: me
+    consumerChannel: channel1
+    consumerSubject:
+      - subjectPaymentSettled
+
+
+#the main encoded element
+
+apiPersona: All
+eventProducer: producer1
+eventConsumer: consumer1

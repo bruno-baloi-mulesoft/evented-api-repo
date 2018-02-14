@@ -34,13 +34,13 @@ import org.mule.streaming.ProviderAwarePagingDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mule.modules.eventedapi.messaging.Producer;
+import org.mule.modules.eventedapi.parser.AmfGenerator;
 import org.mule.modules.eventedapi.messaging.Consumer;
 
 
 @Connector(name="evented-api", friendlyName="EventedApi")
 @MetaDataScope( DataSenseResolver.class )
 @OnException(handler=ErrorHandler.class)
-
 
 public class EventedApiConnector {
 	
@@ -88,6 +88,15 @@ public class EventedApiConnector {
 		
 		GenUtil.getInstance().printConnctorConfig(_configVO);
 		
+		try
+		{
+			AmfParseUtil.getInstance().setAmfDoc(AmfGenerator.parseAmfString(_jsonldDoc));
+		}
+		catch(Exception excp)
+		{
+			excp.printStackTrace();
+		}
+		
 		//2) create Messaging infrastructure i.e. Transports + topics/queues
 		_infraBuilder = MessageInfrastructureBuilder.getInstance();
 		_infraBuilder.setupMsgInfra(_configVO,this);
@@ -116,11 +125,11 @@ public class EventedApiConnector {
     @Processor(name = "SendEvent", friendlyName = "SendEvent")
     public void eventProducer(String subject, Object message) {
     	
-    	logger.info("EventedAPI Conector sending out event on subject="+subject+",payload="+message);
+    	//logger.info("EventedAPI Conector sending out event on subject="+subject+",payload="+message);
     	
     	Event _event = new Event();
     	_event.setEventId(GenUtil.getInstance().genEventUUID());
-    	_event.setMessagePayload(message);
+    	_event.setMessagePayload((String)message);
     	
     	if(_producer==null)
     		_producer =_infraBuilder.getInstance().getProducer();
@@ -170,7 +179,7 @@ public class EventedApiConnector {
     		Event _event = ((ISubject) _consumer.getConsumerSubject(subject)).getNextEvent();
     		if(_event!=null)
      		{
-     			logger.info("EventedAPI Controller received Event: transport="+_event.getTransportType()+",event-d="+_event.getEventId()+",payload="+_event.getMessagePayload());
+     			//logger.info("EventedAPI Controller received Event: transport="+_event.getTransportType()+",event-d="+_event.getEventId()+",payload="+_event.getMessagePayload());
      			callback.process(_event);
      		}
      		

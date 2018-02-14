@@ -1,0 +1,48 @@
+#%RAML 1.0 Vocabulary
+
+usage: Vocabulary to describe the Evented API Policies
+version: 0.1
+base: http://raml.org/vocabularies/policies#
+vocabulary: EventPolicies
+
+external:
+  schema-org: "http://schema.org/"
+  hydra: "http://www.w3.org/ns/hydra/core#"
+  shacl: "http://www.w3.org/ns/shacl#"
+
+propertyTerms:
+  policyID:
+    range: string
+  policyType:
+    description: Volumetric, Security
+    range: string
+  eventVolume:
+    range:  integer
+  eventVolumeMetric:
+    range: string
+  #volumeConstraintPolicy:
+  #  range: EventVolumeConstraintPolicy
+  basePolicy:
+    range: BasePolicy
+  validateEventStructure:
+    range: boolean
+  validateEventPattern:
+    range: boolean
+  eventContentPattern:
+    range:  string
+  enforcementCriteria:
+    range:  string
+  eventUserID:
+    range: string
+  eventPolicyDirection:
+      range:  string
+
+classTerms:
+  BasePolicy:
+    displayName: Base Policy
+    description: Base Policy
+    properties:
+      - policyID
+      - policyType
+      - eventPolicyDirection
+      - enforcementCriteria

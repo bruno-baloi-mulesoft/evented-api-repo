@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "DebitEventPayload"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "DebitCOnfirm"
+        }
+    },
+    "id": "eac72178-9f24-465f-b17e-eb04d215a731",
+    "version": "5.2.0.0"
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:evented-api="http://www.mulesoft.org/schema/mule/evented-api" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/evented-api http://www.mulesoft.org/schema/mule/evented-api/current/mule-evented-api.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+    <evented-api:config name="EventedApi__Configuration" amParseCmd="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Credit/src/main/resources/amf_parse.sh" amfLib="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Credit/src/main/resources/lib/amf.jar" amfDocSpecificationFile="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/examples/EventedAPI_Banking_Credit.raml" amfDialectSpecificationDir="/Users/brunobaloi/MULESOFT/EventedAPI/AMF_Projects/Dialects" eventedAPiConnectorProperties="/Users/brunobaloi/AnypointStudio/workspace_6.2.3_evented_api_2/EventedApi_Credit/src/main/resources/eventedapi-connector.properties" doc:name="EventedApi: Configuration"/>
+    <flow name="eventedapi_creditFlow">
+        <evented-api:event-consumer config-ref="EventedApi__Configuration" subject="subjectCredit" doc:name="EventedApi (Streaming)"/>
+        <flow-ref name="subjectCreditHandler" doc:name="Flow Reference"/>
+    </flow>
+    <flow name="subjectCreditHandler">
+        <dw:transform-message doc:name="Transform Message" metadata:id="bde86737-4f52-436f-ba55-c372dd92adad">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.messagePayload]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="  ==&gt; Got Credit EVENT: #[payload]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="dfc13c62-e76f-47ae-a2ec-37a5b3d39fc4">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	eventID: "cre123c:" ++ (payload.eventID splitBy ":")[1],
+	eventDomain: "Banking_Core",
+	eventCategory: "business",
+	eventType: "creditEventConfirm",
+	eventPayloadType:  "application/json",
+	eventPayload: {
+		CreditConfirm: true,
+		Balance: null,
+		Sum: payload.eventPayload.Sum,
+		ExchangeRate: payload.eventPayload.ExchangeRate,
+		DestinationAccount: {
+			UserId: payload.eventPayload.DestinationAccount.UserId,
+			AccountNumber: payload.eventPayload.DestinationAccount.AccountNumber,
+			AccountType: payload.eventPayload.DestinationAccount.AccountType,
+			BankName: payload.eventPayload.DestinationAccount.BankName,
+			BankCode: payload.eventPayload.DestinationAccount.BankCode,
+			Currency: payload.eventPayload.DestinationAccount.Currency
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <evented-api:send-event config-ref="EventedApi__Configuration" subject="subjectPaymentSettled" message-ref="#[payload]" doc:name="EventedApi"/>
+    </flow>
+</mule>

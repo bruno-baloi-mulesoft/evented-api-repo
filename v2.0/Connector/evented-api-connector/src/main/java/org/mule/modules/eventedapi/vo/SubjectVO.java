@@ -9,8 +9,10 @@ public class SubjectVO {
 	private String subjectName;
 	private String subjectType;
 	private String eventPattern;
+	private boolean enablePolicies;
 	private List transportList;
 	private List supportedEventList;
+	private List policyList;
 	
 	
 	public String getSubjectId() {
@@ -54,6 +56,18 @@ public class SubjectVO {
 	}
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
+	}
+	public List getPolicyList() {
+		return policyList;
+	}
+	public void setPolicyList(List policyList) {
+		this.policyList = policyList;
+	}
+	public boolean isEnablePolicies() {
+		return enablePolicies;
+	}
+	public void setEnablePolicies(boolean enablePolicies) {
+		this.enablePolicies = enablePolicies;
 	}
 	
 	

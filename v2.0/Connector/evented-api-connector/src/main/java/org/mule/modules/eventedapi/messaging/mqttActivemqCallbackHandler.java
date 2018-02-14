@@ -4,6 +4,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttReceivedMessage;
 import org.mule.modules.eventedapi.EventedApiConnector;
 import org.mule.modules.eventedapi.util.GenUtil;
 import org.slf4j.LoggerFactory;
@@ -49,8 +50,11 @@ public class mqttActivemqCallbackHandler implements ICallback, MqttCallback
 		//logger.info("Got Incomming Active MQ Mqtt Message: "+pMessage.toString());
 		//_connector.eventConsumer(subject, event, callback);
 		
+		MqttReceivedMessage _msg = (MqttReceivedMessage) pMessage;
+		String _payload = new String(_msg.getPayload());
+		
 		Event _newEvent = new Event();
-		_newEvent.setMessagePayload(pMessage);
+		_newEvent.setMessagePayload(_payload);
 		_newEvent.setEventId(GenUtil.getInstance().genEventUUID());
 		_newEvent.setTransportType("mqttActivemq");
 		_subject.addInboundEvent(_newEvent);

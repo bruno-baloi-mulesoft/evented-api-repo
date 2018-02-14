@@ -9,6 +9,9 @@ public class EventVO {
 	private String eventPayloadType;
 	private String eventName;
 	private String eventNS;
+	private String eventPayload;
+
+	
 	public String getEventId() {
 		return eventId;
 	}
@@ -51,6 +54,13 @@ public class EventVO {
 	public void setEventNS(String eventNS) {
 		this.eventNS = eventNS;
 	}
+	public String getEventPayload() {
+		return eventPayload;
+	}
+	public void setEventPayload(String payload) {
+		this.eventPayload = payload;
+	}
+	
 	
 	
 	

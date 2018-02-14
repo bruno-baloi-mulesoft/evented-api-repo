@@ -1,0 +1,43 @@
+#%RAML 1.0 Library
+
+usage: Data struture for submiting a payment; transfer accross 2 accounts
+
+types:
+
+  SourceAccountType:
+    type: object
+    properties:
+      UserId: string
+      AccountNumber:  string 
+      AccountType:  string 
+      BankName: string
+      BankCode: string
+      Currency: string      
+
+  DestinationAccountType:
+    type: object
+    properties:
+      UserId: string
+      AccountNumber:  string 
+      AccountType:  string 
+      BankName: string
+      BankCode: string
+      Currency: string      
+
+  PaymentSubmission:
+    type: object
+    properties:
+      Sum:  number
+      ExchangeRate: number
+      SourceAccount:  SourceAccountType
+      DestinationAccount: DestinationAccountType
+
+  PaymentResponse:
+    type: object
+    properties:
+      SourceAccount: string
+      SourceAcountBalance:  number
+      DestinationAccount: string
+      DestinationAcountBalance: number
+      ConvertedSum: number
+      ExchangeRate: number

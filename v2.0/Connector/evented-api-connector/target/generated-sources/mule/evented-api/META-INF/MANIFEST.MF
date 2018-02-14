@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EventedApi
 Bundle-SymbolicName: org.mule.tooling.ui.contribution.evented-api.3.5.0;singleton:=true
-Bundle-Version: 1.0.0.201801102036
+Bundle-Version: 1.0.0.201802130801
 Bundle-Activator: org.mule.tooling.ui.contribution.EventedApiActivator
 Bundle-Vendor: 
 Require-Bundle: org.eclipse.ui,

@@ -10,6 +10,7 @@ import java.util.List;
 import org.mule.modules.eventedapi.util.AmfParseUtil;
 import org.mule.modules.eventedapi.vo.ConnectionVO;
 import org.mule.modules.eventedapi.vo.EventVO;
+import org.mule.modules.eventedapi.vo.PolicyVO;
 import org.mule.modules.eventedapi.vo.TransportVO;
 import org.mule.modules.eventedapi.util.AmfConstants;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class AmfReferencesParser
 		
 		List _eventList=null;
 		List _transportList=null;
+		List _policyList =null;
 		
 		HashMap _refMap = new HashMap();
 		
@@ -68,6 +70,12 @@ public class AmfReferencesParser
 								_transportList = processTransports(_declList);
 								_refMap.put(AmfConstants.TRANPORT_REF, _transportList);
 							}
+							if(_type.equals(AmfConstants.BASE_POLICY))
+							{
+								_policyList = processPolicies(_declList);
+								_refMap.put(AmfConstants.POLICY_REF, _policyList);
+							}
+							
 						}
 							
 						
@@ -281,9 +289,67 @@ public class AmfReferencesParser
 		
 		return _transportList;
 	}
-	private List processPolicies()
+	public static List processPolicies(ArrayList pList)
 	{
-		return null;
+		ArrayList _policyList = new ArrayList();
+		
+		//logger.info("---Processing Policy Lib----");
+		
+		if(pList != null)
+		{
+			Iterator _policyIt = pList.iterator();
+			while(_policyIt.hasNext())
+			{
+				Object _pObj = _policyIt.next();
+				//System.out.println("-Policy class:"+ _pObj.getClass()+", value="+_pObj);
+				
+				if(_pObj instanceof LinkedHashMap)
+				{
+					LinkedHashMap _policyMap = (LinkedHashMap) _pObj;
+					
+		
+					String _pId =(String) _policyMap.get(AmfConstants.ID);
+					ArrayList _pTypeList = (ArrayList) _policyMap.get(AmfConstants.TYPE);
+					String _pType =(String) _pTypeList.get(0);
+					
+					ArrayList _pNameList = (ArrayList)_policyMap.get(AmfConstants.TRANSPORT_NAME);
+					LinkedHashMap _pNameMap = (LinkedHashMap) _pNameList.get(0);
+					String _pName = (String) _pNameMap.get(AmfConstants.VALUE);
+					
+					ArrayList _policyIdList = (ArrayList)_policyMap.get(AmfConstants.POLICY_ID);
+					LinkedHashMap _pMap = (LinkedHashMap)_policyIdList.get(0);
+					String _policyId = (String) _pMap.get(AmfConstants.VALUE);
+					
+					ArrayList _policyTypeList = (ArrayList)_policyMap.get(AmfConstants.POLICY_TYPE);
+					LinkedHashMap _pTMap = (LinkedHashMap)_policyTypeList.get(0);
+					String _policyType = (String) _pTMap.get(AmfConstants.VALUE);
+					
+					ArrayList _policyCriteriaList = (ArrayList)_policyMap.get(AmfConstants.POLICY_ENFORCEMENT_CRITERIA);
+					LinkedHashMap _pCMap = (LinkedHashMap)_policyCriteriaList.get(0);
+					String _policyCriteria = (String) _pCMap.get(AmfConstants.VALUE);
+					
+					ArrayList _policyDirectionList = (ArrayList)_policyMap.get(AmfConstants.POLICY_DIRECTION);
+					LinkedHashMap _pDMap = (LinkedHashMap)_policyDirectionList.get(0);
+					String _policyDirection = (String) _pDMap.get(AmfConstants.VALUE);
+					
+					PolicyVO _pVo = new PolicyVO();
+					_pVo.setPolicyName(_pName);
+					_pVo.setPolicyNS(_pId);
+					_pVo.setPolicyID(_policyId);
+					_pVo.setPolicyType(_policyType);
+					_pVo.setEnforcementCriteria(_policyCriteria);
+					_pVo.setDirection(_policyDirection);
+					
+					_policyList.add(_pVo);
+					
+					
+				}
+			}
+		}
+		
+		
+				
+		return _policyList;
 	}
 	private List processPersistence()
 	{

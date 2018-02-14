@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "Credit"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "CreditConfirm"
+        }
+    },
+    "id": "dfc13c62-e76f-47ae-a2ec-37a5b3d39fc4",
+    "version": "5.2.0.0"
+}

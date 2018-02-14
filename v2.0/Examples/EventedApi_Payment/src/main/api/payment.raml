@@ -1,0 +1,23 @@
+#%RAML 1.0
+title: BankingAppNet_Payment
+version: 1.0
+baseUri: http://bankingappnet-payment.cloudhub.io
+
+uses:
+  #payment_types:  exchange_modules/20be8f5a-4058-4857-8795-f0fbdf2005be.b-2-core-bus-group.mule-4-org/bankpaymentdatatype/1.0.1/bankpaymentdatatype.raml
+  payment_types:  lib/payment_data_types.raml
+
+/Payment:
+  post:
+    body:   
+      application/json:
+        type: payment_types.PaymentSubmission
+        example:  !include  samples/Payment_Submit.json
+    
+    responses:
+        200:
+          body:
+           application/json:
+            type: payment_types.PaymentResponse
+            example:  !include samples/Payment_Response.json
+          

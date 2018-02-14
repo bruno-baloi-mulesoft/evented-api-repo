@@ -34,7 +34,7 @@ public class jcsmpSolaceCallbackHandler implements ICallback, XMLMessageListener
 		// TODO Auto-generated method stub
 		
 		Event _newEvent = new Event();
-		_newEvent.setMessagePayload(pMessage);
+		_newEvent.setMessagePayload((String)pMessage);
 		_newEvent.setEventId(GenUtil.getInstance().genEventUUID());
 		_newEvent.setTransportType("jcsmpSolace");
 		_subject.addInboundEvent(_newEvent);

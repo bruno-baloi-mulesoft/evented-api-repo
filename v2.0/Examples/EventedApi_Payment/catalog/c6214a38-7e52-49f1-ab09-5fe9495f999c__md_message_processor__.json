@@ -1,0 +1,18 @@
+{
+    "inputMessageMetadata": {
+        "flowVariables": {
+            "payment_in_var": {
+                "connectorName": "#_custom_mule_metadata_type_#",
+                "typeId": "payment"
+            }
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "credit"
+        }
+    },
+    "id": "c6214a38-7e52-49f1-ab09-5fe9495f999c",
+    "version": "5.2.0.0"
+}

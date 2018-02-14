@@ -34,6 +34,10 @@ public class AmfConstants
 	public static String EVENT_PAYLOAD_TYPE= "http://raml.org/vocabularies/events#eventPayloadType";
 	public static String EVENT_NAME= "http://schema.org/name";
 	public static String BASE_EVENT = "http://raml.org/vocabularies/events#BaseEvent";
+	public static String BASE_POLICY = "http://raml.org/vocabularies/policies#BasePolicy";
+	public static String ENABLE_POLICY = "http://raml.org/vocabularies/events#subjectEnablePolicies";
+	
+	public static String BASE_POLICY_1 = "http://raml.org/vocabularies/policies#basePolicy";
 	
 	public static String TRANSPORT_CONNECTION = "http://raml.org/vocabularies/transports#transportConection";
 	public static String TRANSPORT_ID = "http://raml.org/vocabularies/transports#transportID";
@@ -57,6 +61,7 @@ public class AmfConstants
 	public static String CONSUMER_REF_EVENT="EventConsumerRef";
 	public static String PRODUCER_REF_EVENT="EventProducerRef";
 	public static String PERSONA_REF="API_Persona";
+	public static String POLICY_REF =  "PolicyReferences";
 	
 	public static String SUBJECT_PATTERN = "http://raml.org/vocabularies/events#subjectPattern";
 	public static String EVENT_TRANSPORT = "http://raml.org/vocabularies/transports#eventTransport";
@@ -72,10 +77,19 @@ public class AmfConstants
 	public static String EVENT_PRODUCER = "http://raml.org/vocabularies/events#eventProducer";
 	public static String EVENT_CONSUMER = "http://raml.org/vocabularies/events#eventConsumer";
 			
+	public static String POLICY_ID = "http://raml.org/vocabularies/policies#policyID";
+	public static String POLICY_TYPE = "http://raml.org/vocabularies/policies#policyType";
+	public static String POLICY_ENFORCEMENT_CRITERIA = "http://raml.org/vocabularies/policies#enforcementCriteria";
+	public static String POLICY_DIRECTION = "http://raml.org/vocabularies/policies#eventPolicyDirection";
+	
 	
 	public static String PERSONA_ALL="All";
 	public static String PERSONA_PRODUCER="Producer";
 	public static String PERSONA_CONSUMER="Consumer";
+	
+	public static String DIRECTION_IN="inbound";
+	public static String DIRECTION_OUT="outbound";
+	public static String DIRECTION_BI="bi-directional";
 	
 
 	
